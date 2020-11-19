@@ -16,7 +16,7 @@ header{
     background-color:rgb(81, 184, 236, 0.3);
 }
 
-.login{
+.register{
     display: flex;
     flex-direction: column;
     width: 40%;
@@ -41,6 +41,7 @@ header{
     width: 60%;
     margin-left: 60px;
     font-size: 20px;
+    padding-left: 5px;
 }
 
 .pass{
@@ -53,6 +54,7 @@ header{
     height: 30px;
     width: 60%;
     margin-left: 20px;
+    padding-left: 5px;
 }
 
 .textopassconfirm{
@@ -61,6 +63,7 @@ header{
     height: 30px;
     width: 46%;
     margin-left: 20px;
+    padding-left: 5px;
 }
 
 .nick{
@@ -72,6 +75,7 @@ header{
     width: 60%;
     margin-left: 82px;
     font-size: 20px;
+    padding-left: 5px;
 }
 
 .imagen{

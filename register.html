@@ -5,7 +5,7 @@
       <title>404</title>
       <meta charset="utf-8"/>
       <link rel="stylesheet" href="register.css" media="screen">
-      <link rel="icon" type="img/png" href="resources/404error.png">
+      <link rel="icon" type="image/png" href="resources/404-error.png">
       <link rel="preconnect" href="https://fonts.gstatic.com">
       <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
     </head>
@@ -14,15 +14,15 @@
             <div class="logo"><img class="logo" src="resources/logo.png"></img></div>
         </header>
         <div class="cuerpo">
-            <form class="login" action="login" method="GET">
-                <div class="correo">Correo:* <input class="texto" type="text" name="correo"></div>
-                <div class="pass">Contraseña:* <input class="textopass" type="password" name="password"></div>
-                <div class="pass">Confirmar contraseña:* <input class="textopassconfirm" type="password" name="passwordconfirm"></div>
-                <div class="nick">Nick:* <input class="textonick" type="text" name="nick"></div>
-                <div class="imagen">Imagen de perfil: <input class="textoimagen" type="file" name="myfile"></div>
+            <form class="register" action="register" method="POST">
+                <div class="correo">Correo:* <input class="texto" placeholder="Correo" type="text" name="correo" accept="image/x-png,image/gif,image/jpeg" required></div>
+                <div class="pass">Contraseña:* <input class="textopass" placeholder="Contraseña" type="password" name="password" required></div>
+                <div class="pass">Confirmar contraseña:* <input class="textopassconfirm" placeholder="Confirmar contraseña" type="password" name="passwordconfirm" required></div>
+                <div class="nick">Nick:* <input class="textonick" placeholder="Nick" type="text" name="nick" required></div>
+                <div class="imagen">Imagen de perfil: <input class="textoimagen" type="file" name="myfile" accept="image/x-png,image/gif,image/jpeg"></div>
                 <div class="botones">
-                <button class="boton ini" type="submit">Iniciar sesión</button>
-                <a href="register.html"> <button class="boton crear" type="button">Crear cuenta</button> </a>
+                    <button class="boton ini" type="submit">Registrarse</button>
+                    <a href="login.html"> <button class="boton crear" type="button">Volver a login</button> </a>
                 </div> 
              </form>
         </div>
