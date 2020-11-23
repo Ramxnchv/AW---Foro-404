@@ -1,0 +1,372 @@
+*{
+    margin: 0;
+    padding:0;
+    font-family: 'Comfortaa', cursive;
+    /* border: 1px solid red; */
+}
+
+/* HEADER */
+.logo{
+    width: 300px;
+}
+
+header{
+    display: flex;
+    flex-direction: column;
+}
+
+.encabezado{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color:rgb(81, 184, 236, 0.3);
+    padding-bottom: 2px;
+}
+
+
+.enlaces{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.enlace{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 2px outset rgb(81, 184, 236, 0.3);
+}
+
+.enlace:hover{
+    background-color: rgb(81, 184, 236);
+    color: white;
+    border-top-right-radius: 120px;
+    border-bottom-right-radius: 120px;
+    border: 2px ridge black;
+    
+
+    transform: scale(1.15);
+    /* transform: translateX(15px); */
+    transition-delay: .1s;
+    transition-duration: .3s;
+}
+
+.textoenlace{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 20px;
+    margin-right: 10px;
+    color: inherit;
+}
+
+.usuario{
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    justify-content: center;
+    text-align: center;
+}
+
+#foto{
+    margin-top: 3px;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%; 
+    border: 3px solid rgb(81, 184, 236); 
+}
+
+.nick{
+    font-weight: bold;
+}
+
+#iconcerrarsesion{
+    height: 17px;
+    vertical-align: text-bottom;   
+}
+
+.textocerrarsesion{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+}
+
+.textocerrarsesion:hover{
+    color: rgb(182, 12, 12);
+}
+
+.search{
+    margin-bottom: 2px;
+    background: linear-gradient(180deg, rgba(81,184,236,0.3) 0%, rgba(255,255,255,1) 71%);
+}
+
+.barrabusqueda{
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.buscar{
+    background-color: rgb(81, 184, 236);
+    color: white;
+    padding: 1px 20px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.textobuscador{
+    margin-left: 20px;
+    height: 20px;
+    width: 100%;
+    padding-left: 30px;
+    border-radius: 5px;
+    border: 2px solid rgb(81, 184, 236, 0.3);
+    font-weight: bold;
+    outline: none;
+}
+
+/* BODY */
+
+.contenido{
+    display: flex;
+    width: 70%;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 628.59px;
+}
+
+.userinfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    border: 2px solid rgb(81, 184, 236, 0.3);
+    padding: 5px;
+    width: 29%;
+    background-color: rgb(81, 184, 236, 0.1);
+}
+
+.imgperfil{
+
+}
+
+.imgperf{
+    height: 75px;
+    width: 75px;
+}
+
+.username{
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.alta{
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.stats{
+    display: flex;
+    flex-direction: column;
+    width: 64%;
+    margin-top: 40px;
+    margin-left: 30px;
+}
+
+.titulostats{
+    border: 1px solid black;
+    background-color: rgb(81, 184, 236, 0.3);
+    border-radius: 5px;
+    padding: 2.5px;
+    text-align: center;
+}
+
+.reputacion{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+.titulorep{
+
+}
+
+.rep{
+    font-weight: bold;
+    margin-top: 5px;
+}
+.preguntass{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: auto;
+    margin-left: 10%;
+}
+
+.titulopreg{
+
+}
+
+.preg{
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.respuestas{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 10%;
+}
+
+.segundalinea{
+    display: flex;
+}
+
+.tituloresp{
+
+}
+
+.resp{
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.medallas{
+    margin-top: 40px;
+    width: 100%;
+}
+
+.medallascontent{
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.bronce{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:20%;
+}
+
+.titulobr{
+
+}
+
+.numbronce{
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.marcobronce{
+    padding: 5px;
+    width: 85%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url("resources/bronzeopacity50.png");
+    background-repeat: no-repeat;
+    background-size: 40px 50px;
+    border: 2px solid rgb(81, 184, 236, 0.3);
+    background-color: rgb(80.4, 49.8, 19.6,0.1);
+}
+.marcobronce:hover{
+    background-image: url("resources/bronze.png");
+    font-weight: bold;
+    cursor: pointer;
+}
+.plata{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:20%;
+    
+}
+
+.titulopl{
+
+}
+
+.numplata{
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.marcoplata{
+    border: 2px solid rgb(81, 184, 236, 0.3);
+    padding: 5px;
+    width: 85%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url("resources/silveropacity50.png");
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    background-color: rgb(192, 192, 192,0.2);
+}
+.marcoplata:hover{
+    background-image: url("resources/silver.png");
+    font-weight: bold;
+    cursor: pointer;
+}
+.oro{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:20%;
+}
+
+.tituloor{
+    
+}
+
+.numoro{
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.marcooro{
+    border: 2px solid rgb(81, 184, 236, 0.3);
+    padding: 5px;
+    width: 85%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url("resources/goldopacity50.png");
+    background-repeat: no-repeat;
+    background-size: 40px 50px;
+    background-color: rgb(100, 84.31, 0,0.1);
+    
+}
+.marcooro:hover{
+    background-image: url("resources/gold.png");
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.listamedallas{
+    margin-top: 10px;
+    width:90%;
+}
+
+.medalla{
+    font-size: 12px;
+    border:1px solid black;
+    padding: 2px;
+    border-radius: 5px;
+    background-color: rgb(70, 69, 69);
+    color: white;
+    margin-bottom: 5px;
+}
