@@ -264,3 +264,9 @@ a{
     margin-top: 10px;
     font-size: 12px;
 }
+
+.titulopagina{
+    display: flex;
+    margin-top: 30px;
+    font-weight: bold;
+}
