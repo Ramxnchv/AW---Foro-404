@@ -137,6 +137,10 @@ header{
     font-size: 13px;
 }
 
+.buscar:hover{
+    cursor: pointer;
+}
+
 .textobuscador{
     margin-left: 20px;
     height: 20px;
