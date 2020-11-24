@@ -42,8 +42,57 @@
         </form>
     </header>
         <div class="cuerpo">
-           <h2 class="titulopagina">Formular una pregunta</h1>
-            
+            <div class="pregunta">
+            <h2 class="titulopregunta">¿Cómo funciona exactamente nth-child?</h2>
+            <div class="textopregunta">No acabo de comprender muy bien que hace exactamente y qué usos prácticos puede tener.</div>
+            <div class="infopregunta">
+                <div class="etiquetasvisitasvotos">
+                <div class="etiquetas">
+                    <div class="etiqueta">CSS</div>
+                    <div class="etiqueta">HTML</div>
+                </div>
+                <div class="visitasvotos">
+                <div class="visitas">Visitas: 1</div>
+                <div class="votos">Votos: 0</div>
+                    <button type="button" class="button"><img class="likeimage" src="resources/like.png" alt="like icon"></button>
+                    <button type="button" class="button"><img class="likeimage" src="resources/dislike.png" alt="dislike icon"></button>
+                </div>
+            </div>
+                <div class="der">
+                    <div class="fecha">Formulada el 5/1/2020</div>
+                    <div class="imguser"><img class="imgus" src="resources/avatar.png"></img></div>
+                    <div class="nickname">Nico</div>
+                </div>
+            </div>
+            </div>
+            <div class="numpreguntas">1 Respuesta</div>
+            <div class="respuestas">
+            <div class="respuesta">
+                <div class="textorespuesta">La pseudoclase :nth-child() selecciona los hermanos que cumplan cierta condición definida en la fórmula an + b. a y b deben ser números enteros, n es un contador. El grupo an representa un ciclo, cada cuantos elementos se repite; b indica desde donde empezamos a contar.</div>
+                <div class="inforespuesta">
+                    <div class="votosvotacion">
+                        <div class="votos">Votos: 0</div>
+                <div class="votacion">
+                    <button type="button" class="button"><img class="likeimage" src="resources/like.png" alt="like icon"></button>
+                    <button type="button" class="button"><img class="likeimage" src="resources/dislike.png" alt="dislike icon"></button>
+                </div>
+                    </div>
+                <div class="der">
+                    <div class="fecha">Formulada el 5/1/2020</div>
+                    <div class="imguser"><img class="imgus" src="resources/homer.jpg"></img></div>
+                    <div class="nickname">Homer</div>
+                </div>
+            </div>
+            </div>
+            </div>
+            <div class="turespuesta">
+                <div class="numpreguntas">Tu respuesta</div>
+                <form class="nuevarespuesta" action="nuevarespuesta" method="POST">
+                    <textarea class="inputrespuesta" type="text" name="cuerporespuesta" required></textarea>
+                    <button class="buscar" type="submit">Publicar respuesta</button>
+                </form>
+            </div>
+            </div>
         </div>
    </body>
 </html>
