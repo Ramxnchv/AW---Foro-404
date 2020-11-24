@@ -9,9 +9,6 @@
     width: 300px;
 }
 
-.logo{
-    width: 300px;
-}
 
 header{
     display: flex;
@@ -90,8 +87,14 @@ header{
     border: 3px solid rgb(81, 184, 236); 
 }
 
+.enlacenick{
+    text-decoration: none;
+}
+
 .nick{
     font-weight: bold;
+    text-decoration: none;
+    color: black;
 }
 
 #iconcerrarsesion{
