@@ -10,9 +10,14 @@
     width: 300px;
 }
 
+body{
+    min-width: 637px;
+}
+
 header{
     display: flex;
     flex-direction: column;
+    min-width: 637px;
 }
 
 .encabezado{
@@ -21,6 +26,7 @@ header{
     justify-content: space-between;
     background-color:rgb(81, 184, 236, 0.3);
     padding-bottom: 2px;
+    min-width: 632px;
 }
 
 
@@ -118,6 +124,10 @@ header{
     padding: 1px 20px;
     border-radius: 5px;
     font-size: 13px;
+}
+
+.buscar:hover{
+    cursor: pointer;
 }
 
 .textobuscador{
