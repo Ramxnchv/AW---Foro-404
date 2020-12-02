@@ -1,0 +1,29 @@
+{
+  "name": "404",
+  "version": "1.0.0",
+  "description": "foro 404",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ramxnchv/AW---Foro-404.git"
+  },
+  "keywords": [
+    "404",
+    "foro",
+    "stack",
+    "overflow"
+  ],
+  "author": "Ramxnchv y VicVelaz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ramxnchv/AW---Foro-404/issues"
+  },
+  "homepage": "https://github.com/Ramxnchv/AW---Foro-404#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}
