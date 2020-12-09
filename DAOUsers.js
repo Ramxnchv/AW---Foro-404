@@ -67,9 +67,8 @@ class DAOUsers {
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else {
-            connection.query("SELECT * FROM usuario WHERE email = ? AND contraseña = SHA1(?);",
-            [email,password],
-            function(err, rows) {
+            connection.query("SELECT usuario.nick,usuario.reputacion, nombretiqueta, MAX(contadoretiqueta) AS etiquetamayor FROM usuario, (SELECT etiqueta.nombre AS nombretiqueta, COUNT(etiqueta.nombre) AS contadoretiqueta FROM etiqueta JOIN etiquetapregunta ON etiquetapregunta.nombreEtiqueta = etiqueta.nombreJOIN pregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON usuario.email = pregunta.emailCreador GROUP BY nombretiqueta ORDER BY contadoretiqueta DESC) AS contadores;")
+            ,function(err, rows) {
                 connection.release(); // devolver al pool la conexión
                 if (err) {
                     callback(new Error("Error de acceso a la base de datos"));
