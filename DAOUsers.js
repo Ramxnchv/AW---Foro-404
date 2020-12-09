@@ -89,28 +89,22 @@ class DAOUsers {
         );
     }
 
-    //FALTA HACER ESTE
-    registerUser(email, password, callback) {
+    registerUser(email, password, nick, imagen, callback) {
         this.pool.getConnection(function(err, connection) {
             if (err) { 
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else {
-            connection.query("SELECT * FROM usuario WHERE email = ? AND contraseña = SHA1(?);",
-            [email,password],
+            connection.query("INSERT INTO usuario(usuario.email, usuario.nick, usuario.contraseña, usuario.imagen) VALUES (?,?,SHA1(?),?)",
+            [email,nick,password,imagen],
             function(err, rows) {
                 connection.release(); // devolver al pool la conexión
                 if (err) {
                     callback(new Error("Error de acceso a la base de datos"));
                 }
                 else {
-                    let email = rows[0].email;
-                    let nick = rows[0].nick;
-                    let reputacion = rows[0].reputacion;
-                    let fechaAlta = rows[0].fechaAlta;
-                    let img = rows[0].img;
-                    let userInfo = {email, nick, reputacion, fechaAlta, img};
-                    callback(userInfo);         
+                   
+                    callback(true);          
                 }
             });
             }
