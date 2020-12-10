@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-12-2020 a las 16:25:07
+-- Tiempo de generación: 10-12-2020 a las 21:38:50
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -68,9 +68,19 @@ INSERT INTO `etiquetapregunta` (`nombreEtiqueta`, `idPregunta`) VALUES
 CREATE TABLE `medalla` (
   `id` int(11) NOT NULL,
   `metal` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
-  `nombre` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
+  `nombre` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `emailUsuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `medalla`
+--
+
+INSERT INTO `medalla` (`id`, `metal`, `nombre`, `emailUsuario`) VALUES
+(1, 'plata', 'Pregunta destacada', 'ramonros@ucm.es'),
+(2, 'plata', 'Pregunta destacada', 'ramonros@ucm.es'),
+(3, 'oro', 'Excelente pregunta', 'ramonros@ucm.es'),
+(4, 'bronce', 'Respuesta interesante', 'ramonros@ucm.es');
 
 -- --------------------------------------------------------
 
@@ -227,7 +237,7 @@ ALTER TABLE `votorespuesta`
 -- AUTO_INCREMENT de la tabla `medalla`
 --
 ALTER TABLE `medalla`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
