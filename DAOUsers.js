@@ -51,7 +51,7 @@ class DAOUsers {
                     let nick = rows[0].nick;
                     let reputacion = rows[0].reputacion;
                     let fechaAlta = rows[0].fechaAlta;
-                    let img = rows[0].img;
+                    let img = rows[0].imagen;
                     let userInfo = {email, nick, reputacion, fechaAlta, img};
                     callback(userInfo);         
                 }
@@ -62,53 +62,48 @@ class DAOUsers {
     }
 
     getAllUsers(email, password, callback) {
-        this.pool.getConnection(function(err, connection) {
-            if (err) { 
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else {
-            connection.query("SELECT usuario.nick,usuario.reputacion, nombretiqueta, MAX(contadoretiqueta) AS etiquetamayor FROM usuario, (SELECT etiqueta.nombre AS nombretiqueta, COUNT(etiqueta.nombre) AS contadoretiqueta FROM etiqueta JOIN etiquetapregunta ON etiquetapregunta.nombreEtiqueta = etiqueta.nombreJOIN pregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON usuario.email = pregunta.emailCreador GROUP BY nombretiqueta ORDER BY contadoretiqueta DESC) AS contadores;")
-            ,function(err, rows) {
-                connection.release(); // devolver al pool la conexión
-                if (err) {
-                    callback(new Error("Error de acceso a la base de datos"));
-                }
-                else {
-                    let email = rows[0].email;
-                    let nick = rows[0].nick;
-                    let reputacion = rows[0].reputacion;
-                    let fechaAlta = rows[0].fechaAlta;
-                    let img = rows[0].img;
-                    let userInfo = {email, nick, reputacion, fechaAlta, img};
-                    callback(userInfo);         
-                }
-            });
+                connection.query("SELECT usuario.nick,usuario.reputacion,usuario.imagen,nombretiqueta FROM (SELECT etiqueta.nombre AS nombretiqueta, COUNT(etiqueta.nombre) AS contadoretiqueta, usuario.* FROM etiqueta JOIN etiquetapregunta ON etiquetapregunta.nombreEtiqueta = etiqueta.nombre JOIN pregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email GROUP BY nombretiqueta ORDER BY contadoretiqueta DESC) AS contadores RIGHT JOIN usuario ON contadores.email = usuario.email GROUP BY usuario.email ORDER BY usuario.nick",
+                    function (err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        }
+                        else {
+                            let users = rows.slice();
+                            users.map(userInfo => {userInfo.nick, userInfo.reputacion, userInfo.imagen, userInfo.nombretiqueta});
+                            callback(users);
+                        }
+                    }
+                );
             }
-        }
-        );
+        });
     }
 
     registerUser(email, password, nick, imagen, callback) {
-        this.pool.getConnection(function(err, connection) {
-            if (err) { 
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else {
-            connection.query("INSERT INTO usuario(usuario.email, usuario.nick, usuario.contraseña, usuario.imagen) VALUES (?,?,SHA1(?),?)",
-            [email,nick,password,imagen],
-            function(err, rows) {
-                connection.release(); // devolver al pool la conexión
-                if (err) {
-                    callback(new Error("Error de acceso a la base de datos"));
-                }
-                else {
-                   
-                    callback(true);          
-                }
-            });
+                connection.query("INSERT INTO usuario(usuario.email, usuario.nick, usuario.contraseña, usuario.imagen) VALUES (?,?,SHA1(?),?)",
+                    [email, nick, password, imagen],
+                    function (err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        }
+                        else {
+                            callback(true);
+                        }
+                    }
+                );
             }
-        }
-        );
+        });
     }
 
     //FALTA HACER ESTE
