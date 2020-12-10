@@ -33,13 +33,13 @@ class DAOUsers {
       );
     }
     
-    getUserInfo(email, password, callback) {
+    getUserInfo(email, callback) {
         this.pool.getConnection(function(err, connection) {
             if (err) { 
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else {
-            connection.query("SELECT * FROM usuario WHERE email = ? AND contraseña = SHA1(?);",
+            connection.query("SELECT * FROM usuario WHERE email = ?",
             [email,password],
             function(err, rows) {
                 connection.release(); // devolver al pool la conexión
@@ -61,7 +61,7 @@ class DAOUsers {
         );
     }
 
-    getAllUsers(email, password, callback) {
+    getAllUsers(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
