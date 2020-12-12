@@ -106,7 +106,6 @@ class DAOUsers {
         });
     }
 
-    //FALTA HACER ESTE
     getMedallas(email, callback) {
         this.pool.getConnection(function(err, connection) {
             if (err) { 
