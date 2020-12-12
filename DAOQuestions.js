@@ -91,7 +91,9 @@ class DAOQuestions {
             for(let i = 0; i < rows.length; ++i){
               let titulo = rows[i].titulo;
               let texto = rows[i].texto.substring(0,150);
-              let fecha = rows[i].fecha;
+              let fechaBD = new Date(rows[i].fecha);
+              let fecha = {dia:fechaBD.getDate(),mes:fechaBD.getMonth(),anyo:fechaBD.getFullYear()}
+              let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
               let etiquetas = [rows[i].nombreEtiqueta];
               let nick = rows[i].nick;
               let imagen = rows[i].imagen;
@@ -100,7 +102,7 @@ class DAOQuestions {
                 etiquetas.push(rows[i+1].nombreEtiqueta);
                 i++;
               }
-              let questionInfo = {titulo, texto, etiquetas, fecha, nick, imagen};
+              let questionInfo = {titulo, texto, etiquetas, fechastr, nick, imagen};
               questionsInfo.push(questionInfo);
               
             }
@@ -132,7 +134,9 @@ class DAOQuestions {
             for(let i = 0; i < rows.length; ++i){
               let titulo = rows[i].titulo;
               let texto = rows[i].texto.substring(0,150);
-              let fecha = rows[i].fecha;
+              let fechaBD = new Date(rows[i].fecha);
+              let fecha = {dia:fechaBD.getDate(),mes:fechaBD.getMonth(),anyo:fechaBD.getFullYear()}
+              let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
               let etiquetas = [rows[i].nombreEtiqueta];
               let nick = rows[i].nick;
               let imagen = rows[i].imagen;
@@ -141,7 +145,7 @@ class DAOQuestions {
                 etiquetas.push(rows[i+1].nombreEtiqueta);
                 i++;
               }
-              let questionInfo = {titulo, texto, etiquetas, fecha, nick, imagen};
+              let questionInfo = {titulo, texto, etiquetas, fechastr, nick, imagen};
               questionsInfo.push(questionInfo);
               
             }
@@ -177,7 +181,9 @@ class DAOQuestions {
             for(let i = 0; i < rows.length; ++i){
               let titulo = rows[i].titulo;
               let texto = rows[i].texto.substring(0,150);
-              let fecha = rows[i].fecha;
+              let fechaBD = new Date(rows[i].fecha);
+              let fecha = {dia:fechaBD.getDate(),mes:fechaBD.getMonth(),anyo:fechaBD.getFullYear()}
+              let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
               let etiquetas = [rows[i].nombreEtiqueta];
               let nick = rows[i].nick;
               let imagen = rows[i].imagen;
@@ -186,7 +192,7 @@ class DAOQuestions {
                 etiquetas.push(rows[i+1].nombreEtiqueta);
                 i++;
               }
-              let questionInfo = {titulo, texto, etiquetas, fecha, nick, imagen};
+              let questionInfo = {titulo, texto, etiquetas, fechastr, nick, imagen};
               questionsInfo.push(questionInfo);
               
             }
@@ -217,11 +223,13 @@ class DAOQuestions {
             rows.forEach(row => {
               let texto = row.texto;
               let puntos = row.puntos;
-              let fecha = row.fecha;
+              let fechaBD = new Date(row.fecha);
+              let fecha = {dia:fechaBD.getDate(),mes:fechaBD.getMonth(),anyo:fechaBD.getFullYear()}
+              let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
               let nick = row.nick;
               let imagen = row.imagen;
 
-              let answerInfo = {texto, puntos, fecha, nick, imagen};
+              let answerInfo = {texto, puntos, fechastr, nick, imagen};
               questions.push(answerInfo);
             });
               callback(answersInfo);         

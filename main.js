@@ -20,7 +20,7 @@ let daoQuestion = new DAOQuestions(pool);
 
 // Uso de los métodos de las clases DAOUsers y DAOQuestions
 // daoQuestion.getAllQuestions(cb_getAllQuestions);
-// daoQuestion.getQuestionsByTag("PHP",cb_getQuestionsByTag);
+daoQuestion.getQuestionsByTag("PHP",cb_getQuestionsByTag);
 //daoQuestion.getQuestionsByText("de",cb_getQuestionsByText);
 // Definición de las funciones callback
 
