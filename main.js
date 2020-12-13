@@ -27,6 +27,8 @@ let daoQuestion = new DAOQuestions(pool);
 //daoQuestion.getAllQuestions(cb_getAllQuestions);
 //daoQuestion.getQuestionsByTag("JS",cb_getQuestionsByTag);
 //daoQuestion.getQuestionsByText("bla",cb_getQuestionsByText);
+
+
 // Definición de las funciones callback
 
 function cb_isUserCorrect(err, result){

@@ -3,15 +3,9 @@
 class DAOQuestions {
 
     constructor(pool) {
-        this.pool = pool;
-      }
+      this.pool = pool;
+    }
   
-  
-
-  getQuestionInfo(){
-
-  }
-
   insertQuestion(email, titulo, cuerpo, etiquetas, callback) {
     var idPregunta = "";
     this.pool.getConnection(function (err, connection) {
@@ -240,6 +234,10 @@ class DAOQuestions {
   );
   }
 
+  getQuestionInfo(idPregunta, callback){
+
+  }
+
   insertAnswer(email, texto, idPregunta, callback){
     this.pool.getConnection(function(err, connection) {
       if (err) { 
@@ -259,6 +257,10 @@ class DAOQuestions {
         });
       }
   });
+}
+
+getNoAnsweredQuestions(callback){
+
 }
 
 
