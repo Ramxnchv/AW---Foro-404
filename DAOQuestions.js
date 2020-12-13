@@ -160,7 +160,7 @@ class DAOQuestions {
 
 
   getQuestionsByText(text,callback){
-    var t = ["%",text,"%"].join('');
+    let t = ["%",text,"%"].join('');
     this.pool.getConnection(function(err, connection) {
       if (err) { 
           callback(new Error("Error de conexión a la base de datos1"));

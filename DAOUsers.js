@@ -40,7 +40,7 @@ class DAOUsers {
             }
             else {
             connection.query("SELECT * FROM usuario WHERE email = ?",
-            [email,password],
+            [email],
             function(err, rows) {
                 connection.release(); // devolver al pool la conexión
                 if (err) {
@@ -50,10 +50,12 @@ class DAOUsers {
                     let email = rows[0].email;
                     let nick = rows[0].nick;
                     let reputacion = rows[0].reputacion;
-                    let fechaAlta = rows[0].fechaAlta;
+                    let fechaBD = new Date(rows[i].fecha);
+                    let fechaAlta = {dia:fechaBD.getDate(),mes:fechaBD.getMonth(),anyo:fechaBD.getFullYear()}
+                    let fechastr = `${fechaAlta.dia}/${fechaAlta.mes}/${fechaAlta.anyo}`;
                     let img = rows[0].imagen;
-                    let userInfo = {email, nick, reputacion, fechaAlta, img};
-                    callback(userInfo);         
+                    let userInfo = {email, nick, reputacion, fechastr, img};
+                    callback(null,userInfo);         
                 }
             });
             }
@@ -74,9 +76,17 @@ class DAOUsers {
                             callback(new Error("Error de acceso a la base de datos"));
                         }
                         else {
-                            let users = rows.slice();
-                            users.map(userInfo => {userInfo.nick, userInfo.reputacion, userInfo.imagen, userInfo.nombretiqueta});
-                            callback(users);
+                            let users = [];
+                            for (let userInfo of rows){
+                                let nick = userInfo.nick;
+                                let reputacion = userInfo.reputacion;
+                                let imagen = userInfo.imagen;
+                                let nombretiqueta = userInfo.nombretiqueta;
+                                users.push({nick, reputacion, imagen, nombretiqueta});
+                            }
+
+                            callback(null,users);
+
                         }
                     }
                 );
@@ -87,7 +97,7 @@ class DAOUsers {
     registerUser(email, password, nick, imagen, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
-                callback(new Error("Error de conexión a la base de datos"));
+                callback(new Error("Error de conexión a la base de datos"),false);
             }
             else {
                 connection.query("INSERT INTO usuario(usuario.email, usuario.nick, usuario.contraseña, usuario.imagen) VALUES (?,?,SHA1(?),?)",
@@ -95,10 +105,10 @@ class DAOUsers {
                     function (err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {
-                            callback(new Error("Error de acceso a la base de datos"));
+                            callback(new Error("Este email ya tiene un usuario asociado"),false);
                         }
                         else {
-                            callback(true);
+                            callback(null,true);
                         }
                     }
                 );
@@ -117,13 +127,13 @@ class DAOUsers {
             function(err, rows) {
                 connection.release(); // devolver al pool la conexión
                 if (err) {
-                    callback(new Error("Error de acceso a la base de datos"));
+                    callback(new Error("Usuario inexistente con ese email"));
                 }
                 else {
                     let bronce = {num:0,lista:[]};
                     let plata = {num:0,lista:[]};
                     let oro = {num:0,lista:[]};;
-                    rows.array.forEach(element => {
+                    rows.forEach(element => {
                         let nombre = element.nombre;
                         let cantidad = element.cantidad;
 
@@ -143,7 +153,7 @@ class DAOUsers {
                     
                     let medallas = {bronce,plata,oro};
                     
-                    callback(medallas);         
+                    callback(null,medallas);         
                 }
             });
             }
