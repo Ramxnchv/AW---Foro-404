@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-12-2020 a las 15:36:04
+-- Tiempo de generación: 13-12-2020 a las 23:54:51
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -36,7 +36,10 @@ CREATE TABLE `etiqueta` (
 --
 
 INSERT INTO `etiqueta` (`nombre`) VALUES
+('Express'),
+('Java'),
 ('JS'),
+('Laravel'),
 ('PHP');
 
 -- --------------------------------------------------------
@@ -55,9 +58,13 @@ CREATE TABLE `etiquetapregunta` (
 --
 
 INSERT INTO `etiquetapregunta` (`nombreEtiqueta`, `idPregunta`) VALUES
+('Express', 31),
+('Java', 8),
 ('JS', 3),
 ('JS', 5),
-('PHP', 4);
+('Laravel', 31),
+('PHP', 4),
+('PHP', 8);
 
 -- --------------------------------------------------------
 
@@ -106,7 +113,29 @@ CREATE TABLE `pregunta` (
 INSERT INTO `pregunta` (`id`, `emailCreador`, `numVisitas`, `titulo`, `texto`, `fecha`, `puntos`) VALUES
 (3, 'ramonros@ucm.es', 0, 'Prueba', 'Pregunta de Prueba', '2020-11-12', 0),
 (4, 'ramonros@ucm.es', 0, 'pregunta php', 'blablabla php', '2020-12-09', 0),
-(5, 'ramonros@ucm.es', 0, 'prueba js', 'pregunta prueba js', '2020-12-09', 0);
+(5, 'ramonros@ucm.es', 0, 'prueba js', 'pregunta prueba js', '2020-12-09', 0),
+(8, 'pruebas@ucm.es', 0, 'Java vs PHP', '¿Cual creen que es mejor para programar el backend de una aplicación empresarial?', '2020-12-13', 0),
+(31, 'pruebas@ucm.es', 0, 'Laravel vs Express', 'Cual de los dos frameworks es mejor para desarrollar el backend de una aplicacion web', '2020-12-13', 0);
+
+--
+-- Disparadores `pregunta`
+--
+DELIMITER $$
+CREATE TRIGGER `crearMedallaVisitasPregunta` AFTER UPDATE ON `pregunta` FOR EACH ROW BEGIN
+DECLARE visitas INT;
+	SELECT pregunta.numVisitas INTO visitas
+    FROM pregunta
+    WHERE pregunta.id = NEW.id;
+    IF visitas = 2 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Pregunta popular",NEW.emailCreador);
+    ELSEIF visitas = 4 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("plata","Pregunta destacada",NEW.emailCreador);
+    ELSEIF visitas = 6 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("oro","Pregunta famosa",NEW.emailCreador);
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -122,6 +151,14 @@ CREATE TABLE `respuesta` (
   `fecha` date NOT NULL DEFAULT current_timestamp(),
   `idPregunta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `respuesta`
+--
+
+INSERT INTO `respuesta` (`id`, `emailCreador`, `texto`, `puntos`, `fecha`, `idPregunta`) VALUES
+(1, 'ramonros@ucm.es', 'PHP es mejor', 0, '2020-12-12', 8),
+(2, 'pruebas@ucm.es', 'A mi me gusta mas J2EE', 0, '2020-12-13', 8);
 
 -- --------------------------------------------------------
 
@@ -143,8 +180,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`email`, `nick`, `contraseña`, `reputacion`, `fechaAlta`, `imagen`) VALUES
-('pruebas@ucm.es', 'Usuario2', 'b766c99607d41d1729a9facaffeb07874dd37343', 1, '2020-12-10', '/resources/userImages/avatar.png'),
-('ramonros@ucm.es', 'Ramxnchv', 'b766c99607d41d1729a9facaffeb07874dd37343', 1, '2020-11-12', '/resources/userImages/magdalena.jpg');
+('pruebas@ucm.es', 'Usuario2', 'b766c99607d41d1729a9facaffeb07874dd37343', 1, '2020-12-10', '/public/resources/userImages/avatar.png'),
+('ramonros@ucm.es', 'Ramxnchv', 'b766c99607d41d1729a9facaffeb07874dd37343', 1, '2020-11-12', '/public/resources/userImages/magdalena.jpg');
 
 -- --------------------------------------------------------
 
@@ -158,6 +195,28 @@ CREATE TABLE `votopregunta` (
   `voto` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
+--
+-- Disparadores `votopregunta`
+--
+DELIMITER $$
+CREATE TRIGGER `crearMedallaVotosPregunta` AFTER INSERT ON `votopregunta` FOR EACH ROW BEGIN
+DECLARE votos INT;
+	SELECT SUM(votopregunta.voto) INTO votos
+    FROM votopregunta
+    WHERE votopregunta.idpregunta = NEW.idpregunta;
+    IF votos = 1 THEN
+    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Estudiante",NEW.emailusuario);
+    ELSEIF votos = 2 THEN
+    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Pregunta interesante",NEW.emailusuario);
+    ELSEIF votos = 4 THEN
+    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("plata","Buena pregunta",NEW.emailusuario);
+    ELSEIF votos = 6 THEN
+    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("oro","Excelente pregunta",NEW.emailusuario);
+    END IF;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -169,6 +228,27 @@ CREATE TABLE `votorespuesta` (
   `emailUsuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `voto` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Disparadores `votorespuesta`
+--
+DELIMITER $$
+CREATE TRIGGER `crearMedallaVotosRespuesta` AFTER INSERT ON `votorespuesta` FOR EACH ROW BEGIN
+DECLARE votos INT;
+	SELECT SUM(votorespuesta.voto) INTO votos
+    FROM votorespuesta
+    WHERE votorespuesta.idRespuesta = NEW.idrespuesta;
+    
+    IF votos = 2 THEN
+    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Respuesta interesante",NEW.emailusuario);
+    ELSEIF votos = 4 THEN
+    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("plata","Buena respuesta",NEW.emailusuario);
+    ELSEIF votos = 6 THEN
+    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("oro","Excelente respuesta",NEW.emailusuario);
+    END IF;
+END
+$$
+DELIMITER ;
 
 --
 -- Índices para tablas volcadas
@@ -226,8 +306,8 @@ ALTER TABLE `votopregunta`
 -- Indices de la tabla `votorespuesta`
 --
 ALTER TABLE `votorespuesta`
-  ADD KEY `votorespuesta_ibfk_1` (`emailUsuario`),
-  ADD KEY `votorespuesta_ibfk_2` (`idRespuesta`);
+  ADD PRIMARY KEY (`idRespuesta`,`emailUsuario`),
+  ADD KEY `votorespuesta_ibfk_1` (`emailUsuario`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -243,13 +323,13 @@ ALTER TABLE `medalla`
 -- AUTO_INCREMENT de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
