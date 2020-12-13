@@ -30,7 +30,7 @@ let daoQuestion = new DAOQuestions(pool);
 //daoQuestion.getNoAnsweredQuestions(cb_getNoAnsweredQuestions);
 //daoQuestion.getQuestionInfo(8,cb_getQuestionInfo);
 
-// ESTA NO VA BIEN -> daoQuestion.insertQuestion("pruebas@ucm.es","Laravel vs Express","Cual de los dos frameworks es mejor para desarrollar el backend de una aplicacion web","@Laravel @Express",cb_insertQuestion);
+daoQuestion.insertQuestion("pruebas@ucm.es","Laravel vs Express","Cual de los dos frameworks es mejor para desarrollar el backend de una aplicacion web",["Laravel" , "Express"],cb_insertQuestion);
 
 //daoQuestion.getAnswersByQuestion(8,cb_getAnswersByQuestion);
 //daoQuestion.insertAnswer("ramonros@ucm.es","Personalmente me gusta mas Express ya que puedes desarrollar tanto backend como front utilizando solo javascript",9,cb_InsertAnswer);

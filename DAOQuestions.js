@@ -19,24 +19,24 @@ class DAOQuestions {
           function (err, result) {
             idPregunta = result.insertId;
             if (err) {
-              callback(new Error("Error de acceso a la base de datos"));
+              callback(new Error("Error al insertar la pregunta en la base de datos"));
             }
             else {
               etiquetas.forEach(t => {
                 //Comprobamos si existe la etiqueta previamente
-                connection.query("SELECT COUNT(*) FROM etiqueta WHERE etiqueta.nombre = ?",
+                connection.query("SELECT COUNT(*) AS cuenta FROM etiqueta WHERE etiqueta.nombre = ?",
                   [t],
                   function (err, count) {
                     if (err) {
                       callback(new Error("Error de acceso a la base de datos"));
                     }
                     else {
-                      if (count[0] == 0) { //Si no existia la añadimos
-                        connection.query("INSERT INTO etiqueta (etiqueta.nombre) VALUES ?",
+                      if (count[0].cuenta === 0) { //Si no existia la añadimos
+                        connection.query("INSERT INTO etiqueta (etiqueta.nombre) VALUES (?)",
                           [t],
                           function (err, r) {
                             if (err) {
-                              callback(new Error("Error de acceso a la base de datos"));
+                              callback(new Error("Error al insertar una etiqueta en la base de datos"));
                             }
                           })
                       }
@@ -45,11 +45,7 @@ class DAOQuestions {
                         [t, idPregunta],
                         function (err, r) {
                           if (err) {
-                            callback(new Error("Error de acceso a la base de datos"));
-                          }
-                          else {
-                            connection.release(); // devolver al pool la conexión
-                            callback(true);
+                            callback(new Error("Error al relacionar una etiqueta con una pregunta en la base de datos"));
                           }
                         }
                       )
@@ -57,6 +53,8 @@ class DAOQuestions {
                   }
                 )
               });
+              connection.release();
+              callback(null,true);
             }
           });
       }
