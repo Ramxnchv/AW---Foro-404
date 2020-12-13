@@ -27,6 +27,13 @@ let daoQuestion = new DAOQuestions(pool);
 //daoQuestion.getAllQuestions(cb_getAllQuestions);
 //daoQuestion.getQuestionsByTag("JS",cb_getQuestionsByTag);
 //daoQuestion.getQuestionsByText("bla",cb_getQuestionsByText);
+//daoQuestion.getNoAnsweredQuestions(cb_getNoAnsweredQuestions);
+//daoQuestion.getQuestionInfo(8,cb_getQuestionInfo);
+
+// ESTA NO VA BIEN -> daoQuestion.insertQuestion("pruebas@ucm.es","Laravel vs Express","Cual de los dos frameworks es mejor para desarrollar el backend de una aplicacion web","@Laravel @Express",cb_insertQuestion);
+
+//daoQuestion.getAnswersByQuestion(8,cb_getAnswersByQuestion);
+//daoQuestion.insertAnswer("ramonros@ucm.es","Personalmente me gusta mas Express ya que puedes desarrollar tanto backend como front utilizando solo javascript",9,cb_InsertAnswer);
 
 
 // Definición de las funciones callback
@@ -63,6 +70,15 @@ function cb_getMedallas(err, result){
     }
 }
 
+function cb_getAnswersByQuestion(err, result){
+    if (err) {
+        console.log(err.message);
+    
+    } else {
+        console.log(result);
+    }
+}
+
 function cb_getAllUsers(err, result){
     if (err) {
         console.log(err.message);
@@ -81,7 +97,44 @@ function cb_registerUser(err, result){
     }
 }
 
+
+function cb_insertQuestion(err, result){
+    if (err) {
+        console.log(err.message);
+    
+    } else {
+        console.log("Pregunta insertada correctamente");
+    }
+}
+
+function cb_InsertAnswer(err, result){
+    if (err) {
+        console.log(err.message);
+    
+    } else {
+        console.log("Respuesta insertada correctamente");
+    }
+}
+
+function cb_getQuestionInfo(err, result){
+    if (err) {
+        console.log(err.message);
+    
+    } else {
+        console.log(result);
+    }
+}
+
 function cb_getAllQuestions(err, result){
+    if (err) {
+        console.log(err.message);
+    
+    } else {
+        console.log(result);
+    }
+}
+
+function cb_getNoAnsweredQuestions(err, result){
     if (err) {
         console.log(err.message);
     

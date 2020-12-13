@@ -22,7 +22,7 @@ class DAOQuestions {
               callback(new Error("Error de acceso a la base de datos"));
             }
             else {
-              etiquetas.array.forEach(t => {
+              etiquetas.forEach(t => {
                 //Comprobamos si existe la etiqueta previamente
                 connection.query("SELECT COUNT(*) FROM etiqueta WHERE etiqueta.nombre = ?",
                   [t],
@@ -224,9 +224,9 @@ class DAOQuestions {
               let imagen = row.imagen;
 
               let answerInfo = {texto, puntos, fechastr, nick, imagen};
-              questions.push(answerInfo);
+              answersInfo.push(answerInfo);
             });
-              callback(answersInfo);         
+              callback(null,answersInfo);         
           }
       });
       }
@@ -235,7 +235,47 @@ class DAOQuestions {
   }
 
   getQuestionInfo(idPregunta, callback){
+    this.pool.getConnection(function(err, connection) {
+      if (err) { 
+          callback(new Error("Error de conexión a la base de datos1"));
+      }
+      else {
+      connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, pregunta.numVisitas, pregunta.puntos, usuario.nick, usuario.imagen FROM pregunta JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email WHERE pregunta.id = ?",
+      [idPregunta],
+      function(err, rows) {
+          connection.release(); // devolver al pool la conexión
+          if (err) {
+            console.log(rows);
+              callback(new Error("Error de acceso a la base de datos2"));
+          }
+          else {
+            let questionInfo = {};
+            for(let i = 0; i < rows.length; ++i){
+              let titulo = rows[i].titulo;
+              let texto = rows[i].texto.substring(0,150);
+              let fechaBD = new Date(rows[i].fecha);
+              let fecha = {dia:fechaBD.getDate(),mes:fechaBD.getMonth(),anyo:fechaBD.getFullYear()}
+              let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
+              let etiquetas = [rows[i].nombreEtiqueta];
+              let visitas = rows[i].numVisitas;
+              let puntos = rows[i].puntos;
+              let nick = rows[i].nick;
+              let imagen = rows[i].imagen;
+              let indice = i;
+              while ( i+1 < rows.length && rows[indice].id == rows[i+1].id){
+                etiquetas.push(rows[i+1].nombreEtiqueta);
+                i++;
+              }
+              questionInfo = {titulo, texto, etiquetas, visitas, puntos, fechastr, nick, imagen};
+              
+            }
 
+              callback(null,questionInfo);         
+          }
+      });
+      }
+  }
+  );
   }
 
   insertAnswer(email, texto, idPregunta, callback){
@@ -252,7 +292,7 @@ class DAOQuestions {
             callback(new Error("Error de acceso a la base de datos"));
           }
           else{
-            callback(true);
+            callback(null,true);
           }
         });
       }
@@ -260,7 +300,48 @@ class DAOQuestions {
 }
 
 getNoAnsweredQuestions(callback){
+  this.pool.getConnection(function(err, connection) {
+    if (err) { 
+        callback(new Error("Error de conexión a la base de datos1"));
+    }
+    else {
+    connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen FROM pregunta JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email LEFT JOIN respuesta ON pregunta.id = respuesta.idPregunta WHERE respuesta.id IS NULL",
+    function(err, rows) {
+        connection.release(); // devolver al pool la conexión
+        if (err) {
+          console.log(rows);
+            callback(new Error("Error de acceso a la base de datos2"));
+        }
+        else {
+         
+          
+          let questionsInfo = [];
 
+          for(let i = 0; i < rows.length; ++i){
+            let titulo = rows[i].titulo;
+            let texto = rows[i].texto.substring(0,150);
+            let fechaBD = new Date(rows[i].fecha);
+            let fecha = {dia:fechaBD.getDate(),mes:fechaBD.getMonth(),anyo:fechaBD.getFullYear()}
+            let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
+            let etiquetas = [rows[i].nombreEtiqueta];
+            let nick = rows[i].nick;
+            let imagen = rows[i].imagen;
+            let indice = i;
+            while ( i+1 < rows.length && rows[indice].id == rows[i+1].id){
+              etiquetas.push(rows[i+1].nombreEtiqueta);
+              i++;
+            }
+            let questionInfo = {titulo, texto, etiquetas, fechastr, nick, imagen};
+            questionsInfo.push(questionInfo);
+            
+          }
+
+            callback(null,questionsInfo);         
+        }
+    });
+    }
+}
+);
 }
 
 
