@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-12-2020 a las 11:54:06
+-- Tiempo de generación: 14-12-2020 a las 14:42:34
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -200,19 +200,46 @@ CREATE TABLE `votopregunta` (
 --
 DELIMITER $$
 CREATE TRIGGER `crearMedallaVotosPregunta` AFTER INSERT ON `votopregunta` FOR EACH ROW BEGIN
+
 DECLARE votos INT;
-	SELECT SUM(votopregunta.voto) INTO votos
+DECLARE rep INT;
+DECLARE emailAutor VARCHAR(30);
+
+	SELECT SUM(votopregunta.voto) INTO @votos
     FROM votopregunta
     WHERE votopregunta.idpregunta = NEW.idpregunta;
-    UPDATE pregunta SET puntos = votos WHERE pregunta.id = NEW.idpregunta;
+    
+    SELECT usuario.reputacion INTO @rep
+    FROM usuario JOIN pregunta ON usuario.email = pregunta.emailCreador
+    WHERE pregunta.id = NEW.idpregunta
+    LIMIT 1;
+    
+    SELECT usuario.email INTO @emailAutor
+    FROM usuario JOIN pregunta ON usuario.email = pregunta.emailCreador
+    WHERE pregunta.id = NEW.idpregunta
+    LIMIT 1;
+    
+    UPDATE pregunta SET puntos = @votos WHERE pregunta.id = NEW.idpregunta;
+    
+    IF NEW.voto = 1 THEN
+		SET @rep = @rep + 10;
+	ELSE
+		SET @rep = @rep - 2;
+		IF @rep < 1 THEN
+    		SET @rep = 1;
+   		END IF;   
+	END IF;
+    
+    UPDATE usuario SET reputacion = @rep WHERE usuario.email = @emailAutor;
+    
     IF votos = 1 THEN
-    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Estudiante",NEW.emailusuario);
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Estudiante",@emailAutor);
     ELSEIF votos = 2 THEN
-    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Pregunta interesante",NEW.emailusuario);
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Pregunta interesante",@emailAutor);
     ELSEIF votos = 4 THEN
-    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("plata","Buena pregunta",NEW.emailusuario);
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("plata","Buena pregunta",@emailAutor);
     ELSEIF votos = 6 THEN
-    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("oro","Excelente pregunta",NEW.emailusuario);
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("oro","Excelente pregunta",@emailAutor);
     END IF;
 END
 $$
@@ -235,17 +262,46 @@ CREATE TABLE `votorespuesta` (
 --
 DELIMITER $$
 CREATE TRIGGER `crearMedallaVotosRespuesta` AFTER INSERT ON `votorespuesta` FOR EACH ROW BEGIN
+
 DECLARE votos INT;
-	SELECT SUM(votorespuesta.voto) INTO votos
+DECLARE rep INT;
+DECLARE emailAutor VARCHAR(30);
+
+	SELECT SUM(votorespuesta.voto) INTO @votos
     FROM votorespuesta
-    WHERE votorespuesta.idRespuesta = NEW.idrespuesta;
-    UPDATE respuesta SET puntos = votos WHERE respuesta.id = NEW.idrespuesta;
-    IF votos = 2 THEN
-    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Respuesta interesante",NEW.emailusuario);
+    WHERE votorespuesta.idRespuesta = NEW.idRespuesta;
+    
+    SELECT usuario.reputacion INTO @rep
+    FROM usuario JOIN respuesta ON usuario.email = respuesta.emailCreador
+    WHERE respuesta.id = NEW.idRespuesta
+    LIMIT 1;
+    
+    SELECT usuario.email INTO @emailAutor
+    FROM usuario JOIN respuesta ON usuario.email = respuesta.emailCreador
+    WHERE respuesta.id = NEW.idRespuesta
+    LIMIT 1;
+    
+    UPDATE respuesta SET puntos = @votos WHERE respuesta.id = NEW.idRespuesta;
+    
+    IF NEW.voto = 1 THEN
+		SET @rep = @rep + 10;
+	ELSE
+		SET @rep = @rep - 2;
+		IF @rep < 1 THEN
+    		SET @rep = 1;
+   		END IF;   
+	END IF;
+    
+    UPDATE usuario SET reputacion = @rep WHERE usuario.email = @emailAutor;
+    
+    IF votos = 1 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Estudiante",@emailAutor);
+    ELSEIF votos = 2 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Respuesta interesante",@emailAutor);
     ELSEIF votos = 4 THEN
-    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("plata","Buena respuesta",NEW.emailusuario);
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("plata","Buena respuesta",@emailAutor);
     ELSEIF votos = 6 THEN
-    INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("oro","Excelente respuesta",NEW.emailusuario);
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("oro","Excelente respuesta",@emailAutor);
     END IF;
 END
 $$
