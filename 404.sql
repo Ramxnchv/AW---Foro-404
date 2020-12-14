@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-12-2020 a las 23:54:51
+-- Tiempo de generación: 14-12-2020 a las 11:54:06
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -204,6 +204,7 @@ DECLARE votos INT;
 	SELECT SUM(votopregunta.voto) INTO votos
     FROM votopregunta
     WHERE votopregunta.idpregunta = NEW.idpregunta;
+    UPDATE pregunta SET puntos = votos WHERE pregunta.id = NEW.idpregunta;
     IF votos = 1 THEN
     INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Estudiante",NEW.emailusuario);
     ELSEIF votos = 2 THEN
@@ -238,7 +239,7 @@ DECLARE votos INT;
 	SELECT SUM(votorespuesta.voto) INTO votos
     FROM votorespuesta
     WHERE votorespuesta.idRespuesta = NEW.idrespuesta;
-    
+    UPDATE respuesta SET puntos = votos WHERE respuesta.id = NEW.idrespuesta;
     IF votos = 2 THEN
     INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Respuesta interesante",NEW.emailusuario);
     ELSEIF votos = 4 THEN
