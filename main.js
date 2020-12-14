@@ -23,17 +23,18 @@ let daoQuestion = new DAOQuestions(pool);
 //daoUser.getUserInfo("ramonros@ucm.es", cb_getUserInfo);
 //daoUser.getMedallas("ramonros@ucm.es", cb_getMedallas);
 //daoUser.getAllUsers(cb_getAllUsers);
-//daoUser.registerUser("ramonros@ucm.es","59061MID","Ramxnchv","/public/resources/userImages/magdalena.jpg",cb_registerUser);
+//daoUser.registerUser("ramonros@ucm.es","blablabla","Ramxnchv","/public/resources/userImages/magdalena.jpg",cb_registerUser);
 //daoQuestion.getAllQuestions(cb_getAllQuestions);
 //daoQuestion.getQuestionsByTag("JS",cb_getQuestionsByTag);
 //daoQuestion.getQuestionsByText("bla",cb_getQuestionsByText);
 //daoQuestion.getNoAnsweredQuestions(cb_getNoAnsweredQuestions);
 //daoQuestion.getQuestionInfo(8,cb_getQuestionInfo);
-
-daoQuestion.insertQuestion("pruebas@ucm.es","Laravel vs Express","Cual de los dos frameworks es mejor para desarrollar el backend de una aplicacion web",["Laravel" , "Express"],cb_insertQuestion);
-
+//daoQuestion.insertQuestion("pruebas@ucm.es","Laravel vs Express","Cual de los dos frameworks es mejor para desarrollar el backend de una aplicacion web",["Laravel" , "Express"],cb_insertQuestion);
 //daoQuestion.getAnswersByQuestion(8,cb_getAnswersByQuestion);
 //daoQuestion.insertAnswer("ramonros@ucm.es","Personalmente me gusta mas Express ya que puedes desarrollar tanto backend como front utilizando solo javascript",9,cb_InsertAnswer);
+daoQuestion.updateVisitas(8,2,cb_updateVisitas);
+daoQuestion.insertarVotoPregunta(8,"ramonros@ucm.es",1,cb_insertarVotoPregunta);
+daoQuestion.insertarVotoRespuesta(2,"ramonros@ucm.es",-1,cb_insertarVotoPregunta);
 
 
 // Definición de las funciones callback
@@ -49,6 +50,33 @@ function cb_isUserCorrect(err, result){
         else{
             console.log("Usuario o contraseña incorrectos");
         }
+    }
+}
+
+function cb_updateVisitas(err, result){
+    if (err) {
+        console.log(err.message);
+    
+    } else {
+        console.log("Visitas actualizadas correctamente");
+    }
+}
+
+function cb_insertarVotoPregunta(err, result){
+    if (err) {
+        console.log(err.message);
+    
+    } else {
+        console.log("Pregunta votada correctamente");
+    }
+}
+
+function cb_insertarVotoRespuesta(err, result){
+    if (err) {
+        console.log(err.message);
+    
+    } else {
+        console.log("Respuesta votada correctamente");
     }
 }
 
