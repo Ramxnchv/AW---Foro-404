@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-12-2020 a las 14:42:34
+-- Tiempo de generación: 15-12-2020 a las 13:36:15
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -244,6 +244,52 @@ DECLARE emailAutor VARCHAR(30);
 END
 $$
 DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `updateVotoPregunta` AFTER UPDATE ON `votopregunta` FOR EACH ROW BEGIN
+
+DECLARE votos INT;
+DECLARE rep INT;
+DECLARE emailAutor VARCHAR(30);
+
+	SELECT SUM(votopregunta.voto) INTO @votos
+    FROM votopregunta
+    WHERE votopregunta.idpregunta = NEW.idpregunta;
+    
+    SELECT usuario.reputacion INTO @rep
+    FROM usuario JOIN pregunta ON usuario.email = pregunta.emailCreador
+    WHERE pregunta.id = NEW.idpregunta
+    LIMIT 1;
+    
+    SELECT usuario.email INTO @emailAutor
+    FROM usuario JOIN pregunta ON usuario.email = pregunta.emailCreador
+    WHERE pregunta.id = NEW.idpregunta
+    LIMIT 1;
+    
+    UPDATE pregunta SET puntos = @votos WHERE pregunta.id = NEW.idpregunta;
+    
+    IF NEW.voto = 1 THEN
+		SET @rep = @rep + 10;
+	ELSE
+		SET @rep = @rep - 2;
+		IF @rep < 1 THEN
+    		SET @rep = 1;
+   		END IF;   
+	END IF;
+    
+    UPDATE usuario SET reputacion = @rep WHERE usuario.email = @emailAutor;
+    
+    IF votos = 1 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Estudiante",@emailAutor);
+    ELSEIF votos = 2 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Pregunta interesante",@emailAutor);
+    ELSEIF votos = 4 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("plata","Buena pregunta",@emailAutor);
+    ELSEIF votos = 6 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("oro","Excelente pregunta",@emailAutor);
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -262,6 +308,52 @@ CREATE TABLE `votorespuesta` (
 --
 DELIMITER $$
 CREATE TRIGGER `crearMedallaVotosRespuesta` AFTER INSERT ON `votorespuesta` FOR EACH ROW BEGIN
+
+DECLARE votos INT;
+DECLARE rep INT;
+DECLARE emailAutor VARCHAR(30);
+
+	SELECT SUM(votorespuesta.voto) INTO @votos
+    FROM votorespuesta
+    WHERE votorespuesta.idRespuesta = NEW.idRespuesta;
+    
+    SELECT usuario.reputacion INTO @rep
+    FROM usuario JOIN respuesta ON usuario.email = respuesta.emailCreador
+    WHERE respuesta.id = NEW.idRespuesta
+    LIMIT 1;
+    
+    SELECT usuario.email INTO @emailAutor
+    FROM usuario JOIN respuesta ON usuario.email = respuesta.emailCreador
+    WHERE respuesta.id = NEW.idRespuesta
+    LIMIT 1;
+    
+    UPDATE respuesta SET puntos = @votos WHERE respuesta.id = NEW.idRespuesta;
+    
+    IF NEW.voto = 1 THEN
+		SET @rep = @rep + 10;
+	ELSE
+		SET @rep = @rep - 2;
+		IF @rep < 1 THEN
+    		SET @rep = 1;
+   		END IF;   
+	END IF;
+    
+    UPDATE usuario SET reputacion = @rep WHERE usuario.email = @emailAutor;
+    
+    IF votos = 1 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Estudiante",@emailAutor);
+    ELSEIF votos = 2 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("bronce","Respuesta interesante",@emailAutor);
+    ELSEIF votos = 4 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("plata","Buena respuesta",@emailAutor);
+    ELSEIF votos = 6 THEN
+    	INSERT INTO medalla (metal, nombre, emailUsuario) VALUES ("oro","Excelente respuesta",@emailAutor);
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `updateVotoRespuesta` AFTER UPDATE ON `votorespuesta` FOR EACH ROW BEGIN
 
 DECLARE votos INT;
 DECLARE rep INT;
