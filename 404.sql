@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-12-2020 a las 14:07:07
+-- Tiempo de generación: 15-12-2020 a las 14:11:43
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -180,7 +180,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`email`, `nick`, `contraseña`, `reputacion`, `fechaAlta`, `imagen`) VALUES
-('pruebas@ucm.es', 'Usuario2', 'b766c99607d41d1729a9facaffeb07874dd37343', 1, '2020-12-10', '/public/resources/userImages/avatar.png'),
+('pruebas@ucm.es', 'Usuario2', 'b766c99607d41d1729a9facaffeb07874dd37343', 11, '2020-12-10', '/public/resources/userImages/avatar.png'),
 ('ramonros@ucm.es', 'Ramxnchv', 'b766c99607d41d1729a9facaffeb07874dd37343', 1, '2020-11-12', '/public/resources/userImages/magdalena.jpg');
 
 -- --------------------------------------------------------
@@ -194,6 +194,13 @@ CREATE TABLE `votopregunta` (
   `emailusuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `voto` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `votopregunta`
+--
+
+INSERT INTO `votopregunta` (`idpregunta`, `emailusuario`, `voto`) VALUES
+(8, 'ramonros@ucm.es', 1);
 
 --
 -- Disparadores `votopregunta`
@@ -268,7 +275,11 @@ DECLARE emailAutor VARCHAR(30);
     UPDATE pregunta SET puntos = @votos WHERE pregunta.id = NEW.idpregunta;
     
     IF OLD.voto = -1 AND NEW.voto = 1 THEN
-		SET @rep = @rep + 12;
+    	IF @rep = 1 THEN
+			SET @rep = @rep + 10;
+        ELSE
+        	SET @rep = @rep + 12;
+        END IF;
     ELSEIF OLD.voto = 1 AND NEW.voto = -1 THEN
     	SET @rep = @rep - 12;
 		IF @rep < 1 THEN
@@ -304,13 +315,6 @@ CREATE TABLE `votorespuesta` (
   `emailUsuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `voto` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `votorespuesta`
---
-
-INSERT INTO `votorespuesta` (`idRespuesta`, `emailUsuario`, `voto`) VALUES
-(2, 'ramonros@ucm.es', -1);
 
 --
 -- Disparadores `votorespuesta`
@@ -385,7 +389,11 @@ DECLARE emailAutor VARCHAR(30);
     UPDATE respuesta SET puntos = @votos WHERE respuesta.id = NEW.idRespuesta;
     
     IF OLD.voto = -1 AND NEW.voto = 1 THEN
-		SET @rep = @rep + 12;
+		IF @rep = 1 THEN
+			SET @rep = @rep + 10;
+        ELSE
+        	SET @rep = @rep + 12;
+        END IF;
     ELSEIF OLD.voto = 1 AND NEW.voto = -1 THEN
     	SET @rep = @rep - 12;
 		IF @rep < 1 THEN
