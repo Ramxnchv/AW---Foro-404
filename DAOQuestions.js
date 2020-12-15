@@ -22,6 +22,7 @@ class DAOQuestions {
               callback(new Error("Error al insertar la pregunta en la base de datos"));
             }
             else {
+
               etiquetas.forEach(t => {
                 //Comprobamos si existe la etiqueta previamente
                 connection.query("SELECT COUNT(*) AS cuenta FROM etiqueta WHERE etiqueta.nombre = ?",
@@ -31,6 +32,7 @@ class DAOQuestions {
                       callback(new Error("Error de acceso a la base de datos"));
                     }
                     else {
+
                       if (count[0].cuenta === 0) { //Si no existia la añadimos
                         connection.query("INSERT INTO etiqueta (etiqueta.nombre) VALUES (?)",
                           [t],
@@ -49,13 +51,15 @@ class DAOQuestions {
                           }
                         }
                       )
+                      
                     }
                   }
                 )
               });
+              
+            }
               connection.release();
               callback(null, true);
-            }
           });
       }
     }
@@ -285,11 +289,11 @@ class DAOQuestions {
         connection.query("INSERT INTO respuesta (respuesta.emailCreador,respuesta.texto, respuesta.idPregunta) VALUES (?,?,?) ",
           [email, texto, idPregunta],
           function (error, r) {
-            connection.release(); // devolver al pool la conexión
+            idRespuesta = result.insertId;
             if (err) {
               callback(new Error("Error de acceso a la base de datos"));
             }
-            else {
+            else{
               callback(null, true);
             }
           });
@@ -342,16 +346,118 @@ class DAOQuestions {
     );
   }
 
-  updateVisitas(idPregunta, visitas, callback){
+  updateVisitas(idPregunta, callback){
     //actualiza visitas de la pregunta id (en una mas)
+    this.pool.getConnection(function (err, connection) {
+      if (err) {
+        callback(new Error("Error de conexión a la base de datos"));
+      }
+      else {
+        connection.query("UPDATE pregunta SET pregunta.numVisitas = pregunta.numVisitas+1 WHERE pregunta.id = ?  ",
+          [idPregunta],
+          function (error) {
+            connection.release(); // devolver al pool la conexión
+            if (err) {
+              callback(new Error("Error de acceso a la base de datos"));
+            }
+            else {
+              callback(null, true);
+            }
+          });
+      }
+    });
   }
 
   insertarVotoPregunta(idPregunta, emailUsuario, voto, callback){
     //inserta un voto en votopregunta -> la actualización de puntos en la tabla pregunta ya se hace en el trigger (no hay que hacerla aqui)
+    this.pool.getConnection(function (err, connection) {
+      if (err) {
+        callback(new Error("Error de conexión a la base de datos"));
+      }
+      else {
+        connection.query("SELECT COUNT(*) AS cuenta, voto FROM votopregunta WHERE idpregunta = ? AND emailusuario = ?",
+          [idPregunta, emailUsuario],
+          function (error, count) {
+            
+            if (err) {
+              callback(new Error("Error de acceso a la base de datos"));
+            }
+            else {
+
+              if(count[0].cuenta == 0){ //Si no ha votado ese usuario a esa pregunta hacemos un insert
+                
+                connection.query("INSERT INTO votopregunta (idPregunta, emailusuario,voto) VALUES (?, ?, ?) ",
+                [idPregunta, emailUsuario,voto],
+                function (error) {
+                  if (err) {
+                    callback(new Error("Error de acceso a la base de datos"));
+                  }
+                });
+              }
+              else{ //Si tenemos ya ha votado, hacemos un update
+                if(count[0].voto != voto){
+                connection.query("UPDATE votopregunta SET voto = ? WHERE idPregunta =  ? AND emailusuario = ?",
+                [voto, idPregunta, emailUsuario],
+                function (error) {
+                  if (err) {
+                    callback(new Error("Error de acceso a la base de datos"));
+                  }
+                });
+              }
+            }
+              connection.release(); // devolver al pool la conexión
+              callback(null, true);
+            }
+          });
+      }
+    });
+
+    
   }
 
   insertarVotoRespuesta(idRespuesta, emailUsuario, voto, callback){
     //inserta un voto en votorespuesta -> la actualización de puntos en la tabla respuesta ya se hace en el trigger (no hay que hacerla aqui)
+    this.pool.getConnection(function (err, connection) {
+      if (err) {
+        callback(new Error("Error de conexión a la base de datos"));
+      }
+      else {
+        connection.query("SELECT COUNT(*) AS cuenta, voto FROM votorespuesta WHERE idrespuesta = ? AND emailusuario = ?",
+          [idRespuesta, emailUsuario],
+          function (error, count) {
+            
+            if (err) {
+              callback(new Error("Error de acceso a la base de datos"));
+            }
+            else {
+
+              if(count[0].cuenta == 0){ //Si no ha votado ese usuario a esa pregunta hacemos un insert
+                
+                connection.query("INSERT INTO votorespuesta (idrespuesta, emailusuario,voto) VALUES (?, ?, ?) ",
+                [idRespuesta, emailUsuario,voto],
+                function (error) {
+                  if (err) {
+                    callback(new Error("Error de acceso a la base de datos"));
+                  }
+                });
+              }
+              else{ //Si tenemos ya ha votado, hacemos un update
+                if(count[0].voto != voto){
+                connection.query("UPDATE votorespuesta SET voto = ? WHERE idrespuesta =  ? AND emailusuario = ?",
+                [voto, idRespuesta, emailUsuario],
+                function (error) {
+                  if (err) {
+                    callback(new Error("Error de acceso a la base de datos"));
+                  }
+                });
+              }
+            }
+              connection.release(); // devolver al pool la conexión
+              callback(null, true);
+            }
+          });
+      }
+    });
   }
 
 }

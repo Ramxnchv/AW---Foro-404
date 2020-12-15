@@ -29,12 +29,13 @@ let daoQuestion = new DAOQuestions(pool);
 //daoQuestion.getQuestionsByText("bla",cb_getQuestionsByText);
 //daoQuestion.getNoAnsweredQuestions(cb_getNoAnsweredQuestions);
 //daoQuestion.getQuestionInfo(8,cb_getQuestionInfo);
-//daoQuestion.insertQuestion("pruebas@ucm.es","Laravel vs Express","Cual de los dos frameworks es mejor para desarrollar el backend de una aplicacion web",["Laravel" , "Express"],cb_insertQuestion);
+//daoQuestion.insertQuestion("pruebas@ucm.es","VOTOPREGUNTAA","Cual de los dos frameworks es mejor para desarrollar el backend de una aplicacion web",["Laravel" , "Express"],cb_insertQuestion);
 //daoQuestion.getAnswersByQuestion(8,cb_getAnswersByQuestion);
-//daoQuestion.insertAnswer("ramonros@ucm.es","Personalmente me gusta mas Express ya que puedes desarrollar tanto backend como front utilizando solo javascript",9,cb_InsertAnswer);
-daoQuestion.updateVisitas(8,2,cb_updateVisitas);
-daoQuestion.insertarVotoPregunta(8,"ramonros@ucm.es",1,cb_insertarVotoPregunta);
-daoQuestion.insertarVotoRespuesta(2,"ramonros@ucm.es",-1,cb_insertarVotoPregunta);
+//daoQuestion.insertAnswer("ramonros@ucm.es","Pues vamo a ver si se inserta esta fila en la tabla votorespuesta cruck",9,cb_InsertAnswer);
+//daoQuestion.updateVisitas(3,cb_updateVisitas);
+//daoQuestion.insertarVotoPregunta(37,"ramonros@ucm.es",-1,cb_insertarVotoPregunta);
+// daoQuestion.insertarVotoRespuesta(2,"ramonros@ucm.es",-1,cb_insertarVotoRespuesta);
+
 
 
 // Definición de las funciones callback
