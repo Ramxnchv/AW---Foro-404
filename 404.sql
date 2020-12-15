@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-12-2020 a las 13:36:15
+-- Tiempo de generación: 15-12-2020 a las 14:07:07
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -114,7 +114,7 @@ INSERT INTO `pregunta` (`id`, `emailCreador`, `numVisitas`, `titulo`, `texto`, `
 (3, 'ramonros@ucm.es', 0, 'Prueba', 'Pregunta de Prueba', '2020-11-12', 0),
 (4, 'ramonros@ucm.es', 0, 'pregunta php', 'blablabla php', '2020-12-09', 0),
 (5, 'ramonros@ucm.es', 0, 'prueba js', 'pregunta prueba js', '2020-12-09', 0),
-(8, 'pruebas@ucm.es', 0, 'Java vs PHP', '¿Cual creen que es mejor para programar el backend de una aplicación empresarial?', '2020-12-13', 0),
+(8, 'pruebas@ucm.es', 0, 'Java vs PHP', '¿Cual creen que es mejor para programar el backend de una aplicación empresarial?', '2020-12-13', 1),
 (31, 'pruebas@ucm.es', 0, 'Laravel vs Express', 'Cual de los dos frameworks es mejor para desarrollar el backend de una aplicacion web', '2020-12-13', 0);
 
 --
@@ -158,7 +158,7 @@ CREATE TABLE `respuesta` (
 
 INSERT INTO `respuesta` (`id`, `emailCreador`, `texto`, `puntos`, `fecha`, `idPregunta`) VALUES
 (1, 'ramonros@ucm.es', 'PHP es mejor', 0, '2020-12-12', 8),
-(2, 'pruebas@ucm.es', 'A mi me gusta mas J2EE', 0, '2020-12-13', 8);
+(2, 'pruebas@ucm.es', 'A mi me gusta mas J2EE', -1, '2020-12-13', 8);
 
 -- --------------------------------------------------------
 
@@ -267,13 +267,15 @@ DECLARE emailAutor VARCHAR(30);
     
     UPDATE pregunta SET puntos = @votos WHERE pregunta.id = NEW.idpregunta;
     
-    IF NEW.voto = 1 THEN
-		SET @rep = @rep + 10;
-	ELSE
-		SET @rep = @rep - 2;
+    IF OLD.voto = -1 AND NEW.voto = 1 THEN
+		SET @rep = @rep + 12;
+    ELSEIF OLD.voto = 1 AND NEW.voto = -1 THEN
+    	SET @rep = @rep - 12;
 		IF @rep < 1 THEN
     		SET @rep = 1;
-   		END IF;   
+   		END IF; 
+	ELSE
+		SET @rep = @rep;  
 	END IF;
     
     UPDATE usuario SET reputacion = @rep WHERE usuario.email = @emailAutor;
@@ -302,6 +304,13 @@ CREATE TABLE `votorespuesta` (
   `emailUsuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `voto` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `votorespuesta`
+--
+
+INSERT INTO `votorespuesta` (`idRespuesta`, `emailUsuario`, `voto`) VALUES
+(2, 'ramonros@ucm.es', -1);
 
 --
 -- Disparadores `votorespuesta`
@@ -375,13 +384,15 @@ DECLARE emailAutor VARCHAR(30);
     
     UPDATE respuesta SET puntos = @votos WHERE respuesta.id = NEW.idRespuesta;
     
-    IF NEW.voto = 1 THEN
-		SET @rep = @rep + 10;
-	ELSE
-		SET @rep = @rep - 2;
+    IF OLD.voto = -1 AND NEW.voto = 1 THEN
+		SET @rep = @rep + 12;
+    ELSEIF OLD.voto = 1 AND NEW.voto = -1 THEN
+    	SET @rep = @rep - 12;
 		IF @rep < 1 THEN
     		SET @rep = 1;
-   		END IF;   
+   		END IF; 
+	ELSE
+		SET @rep = @rep;  
 	END IF;
     
     UPDATE usuario SET reputacion = @rep WHERE usuario.email = @emailAutor;
