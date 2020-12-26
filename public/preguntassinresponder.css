@@ -5,9 +5,6 @@
     /* border: 1px solid red; */
 }
 
-.logo{
-    width: 300px;
-}
 
 *{
     margin: 0;
@@ -23,16 +20,17 @@
 header{
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* background-color:rgb(81, 184, 236, 0.3); */
+    position: fixed;
+    width: 100%;
+    margin-top: -170px;
+    backface-visibility: unset;
 }
 
 .encabezado{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color:rgb(81, 184, 236, 0.3);
+    background-color:#ccecfc;
     padding-bottom: 2px;
 }
 
@@ -124,7 +122,7 @@ header{
 
 .search{
     margin-bottom: 2px;
-    background: linear-gradient(180deg, rgba(81,184,236,0.3) 0%, rgba(255,255,255,1) 71%);
+    background: linear-gradient(180deg, #ccecfc 0%, rgba(255,255,255,1) 71%);
 }
 
 .barrabusqueda{
@@ -170,6 +168,7 @@ a{
     align-items: center;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 170px;
 }
 .titulopagina{
     display: flex;
@@ -265,9 +264,10 @@ a{
     margin-top: 10px;
 }
 
+
 .imgus{
-    height: 25px;
-    width: 25px;
+    height: 45px;
+    width: 45px;
 }
 
 .nickname{

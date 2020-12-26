@@ -16,13 +16,17 @@ a{
 header{
     display: flex;
     flex-direction: column;
+    position: fixed;
+    width: 100%;
+    margin-top: -170px;
+    backface-visibility: unset;
 }
 
 .encabezado{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color:rgb(81, 184, 236, 0.3);
+    background-color:#ccecfc;
     padding-bottom: 2px;
 }
 
@@ -119,7 +123,7 @@ header{
 
 .search{
     margin-bottom: 2px;
-    background: linear-gradient(180deg, rgba(81,184,236,0.3) 0%, rgba(255,255,255,1) 71%);
+    background: linear-gradient(180deg, #ccecfc 0%, rgba(255,255,255,1) 71%);
 }
 
 .barrabusqueda{
@@ -162,6 +166,7 @@ header{
     width: 70%;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 170px;
 }
 
 .titulo{
@@ -211,22 +216,16 @@ header{
 }
 
 .usuarioweb:hover{
-    background-color: rgb(81, 184, 236, 0.3);
-    box-shadow:5px 7.5px 10px rgb(81, 184, 236, 0.3);
+    background-color:#ccecfc;
+    box-shadow:5px 7.5px 10px #ccecfc;
     color:white;
     cursor: pointer;
 }
 
-.imgus{
-
-}
 .imgu{
-    width:50px;
-    height:50px;
-}
-
-.username{
-
+    width:100px;
+    height:100px;
+    border-radius: 100%;
 }
 
 .reputacion{
