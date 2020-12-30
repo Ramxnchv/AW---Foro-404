@@ -87,11 +87,6 @@ header{
     font-size: 17px;
 }
 
-.ini{
-   
-    
-}
-
 .crear{
   margin-left: 20px;
 }
@@ -100,3 +95,8 @@ header{
     cursor: pointer;
 }
 
+.error{
+    color: rgb(173, 6, 6);
+    font-weight: bold;
+    margin-top: 20px;
+}
