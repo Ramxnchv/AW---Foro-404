@@ -161,7 +161,6 @@ class DAOUsers {
         );
     }
   
-
   }
   module.exports = DAOUsers;
   

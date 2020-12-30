@@ -1,6 +1,6 @@
 const config = require("./config");
-const DAOQuestions = require("./DAOQuestions");
-const DAOUsers = require("./DAOUsers");
+const DAOQuestions = require("./models/DAOQuestions");
+const DAOUsers = require("./models/DAOUsers");
 //const utils = require("./utils");
 const path = require("path");
 const mysql = require("mysql");
@@ -48,6 +48,9 @@ const middlewareSession = session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(middlewareSession);
 
+const loginOutRouter = require("./controllers/controllerLoginOut");
+app.use("/loginout",loginOutRouter);
+
 function isUserLogged(request, response, next){
     if (request.session.currentUser === undefined) {
         response.redirect("/login");
@@ -57,31 +60,8 @@ function isUserLogged(request, response, next){
     }
 }
 
-app.get("/login", function (request, response) {
-    response.render("login", { errorMsg: null });
-});
 
-app.post("/login", function (request, response) {
-    daoU.isUserCorrect(request.body.correo,
-        request.body.password, function (error, ok) {
-            if (error) { // error de acceso a la base de datos
-                response.status(500);
-                console.log("error");
-                response.render("login", { errorMsg: "Error interno de acceso a la base de datos" });
-            }
-            else if (ok) {
-                request.session.currentUser = request.body.correo;
-                console.log("ok");
-                response.redirect("/preguntas.html");
-            } 
-            else {
-                response.status(200);
-                console.log("contraseña invalida");
-                response.render("login", { errorMsg: "Dirección de correo y/o contraseña no válidos" });
-            }
-        }
-    );
-});
+
 
 app.get("/preguntas", isUserLogged, function(request, response) {
     daoT.getAllQuestions(function(err,taskList){
@@ -94,6 +74,13 @@ app.get("/preguntas", isUserLogged, function(request, response) {
     });
 });
 
+
+
+
+app.get("/imagenUsuario", isUserLogged, function (request, response) {
+    //TODO
+    response.sendFile(path.join(__dirname, "profile_imgs", "homer.jpg"));       
+});
 
 
 
