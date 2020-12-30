@@ -1,0 +1,284 @@
+*{
+    margin: 0;
+    padding:0;
+    font-family: 'Comfortaa', cursive;
+    /* border: 1px solid red; */
+}
+
+.logo{
+    width: 300px;
+}
+
+*{
+    margin: 0;
+    padding:0;
+    font-family: 'Comfortaa', cursive;
+}
+
+.logo{
+    width: 300px;
+}
+
+header{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 100%;
+    margin-top: -170px;
+    backface-visibility: unset;
+}
+
+.encabezado{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color:#ccecfc;
+    padding-bottom: 2px;
+}
+
+
+.enlaces{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.enlace{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 2px outset rgb(81, 184, 236, 0.3);
+}
+
+.enlacepreguntas{
+    background-color: rgb(81, 184, 236);
+    color: white;
+    border-top-right-radius: 120px;
+    border-bottom-right-radius: 120px;
+    border: 2px ridge black;
+    transform: scale(1.15);
+}
+
+.enlace:hover{
+    background-color: rgb(81, 184, 236);
+    color: white;
+    border-top-right-radius: 120px;
+    border-bottom-right-radius: 120px;
+    border: 2px ridge black;
+    
+
+    transform: scale(1.15);
+    /* transform: translateX(15px); */
+    transition-delay: .1s;
+    transition-duration: .3s;
+}
+
+.textoenlace{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 20px;
+    margin-right: 10px;
+    color: inherit;
+}
+
+.usuario{
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    justify-content: center;
+    text-align: center;
+}
+
+#foto{
+    margin-top: 3px;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%; 
+    border: 3px solid rgb(81, 184, 236); 
+}
+
+.enlacenick{
+    text-decoration: none;
+}
+
+.nick{
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+#iconcerrarsesion{
+    height: 17px;
+    vertical-align: text-bottom;   
+}
+
+.textocerrarsesion{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+}
+
+.textocerrarsesion:hover{
+    color: rgb(182, 12, 12);
+}
+
+.search{
+    margin-bottom: 2px;
+    background: linear-gradient(180deg, #ccecfc 0%, rgba(255,255,255,1) 71%);
+}
+
+.barrabusqueda{
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.buscar{
+    background-color: rgb(81, 184, 236);
+    color: white;
+    padding: 1px 20px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.buscar:hover{
+    cursor: pointer;
+}
+
+.textobuscador{
+    margin-left: 20px;
+    height: 20px;
+    width: 100%;
+    padding-left: 30px;
+    border-radius: 5px;
+    border: 2px solid #ccecfc;
+    font-weight: bold;
+    outline: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+.cuerpo{
+    width: 60%;
+    min-width: 460px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 170px;
+}
+
+.titulopagina{
+    display: flex;
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+.infopreguntas{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.numpreguntas{
+   margin-left: 10%;
+}
+
+.formp{
+    margin-right: 10%;
+}
+
+.formularpregunta{
+    background-color:rgb(81, 184, 236);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.formularpregunta:hover{
+    cursor: pointer;
+}
+
+.preguntas{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.pregunta{
+    display: flex;
+    border: 1px solid rgb(216, 215, 215,0.5);
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.izq{
+    display: flex;
+    flex-direction: column;
+}
+
+.titulo{
+    color:rgb(28, 160, 226);
+    font-weight: bold;
+}
+
+.titulo:hover{
+    cursor: pointer;
+}
+
+.texto{
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.etiquetas{
+    margin-top: 10px;
+    display: flex;
+}
+
+.etiqueta{
+    margin-right: 3%;
+    border: 1px solid rgb(126, 126, 126);
+    background-color: rgb(230, 228, 228, 0.8);
+    font-size: 10px;
+    padding: 3px;
+}
+
+.der{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.fecha{
+    font-size: 12px;
+}
+
+.imguser{
+    margin-top: 10px;
+}
+
+.imgus{
+    height: 45px;
+    width: 45px;
+}
+
+.nickname{
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.titulopagina{
+    display: flex;
+    margin-top: 30px;
+    font-weight: bold;
+}
