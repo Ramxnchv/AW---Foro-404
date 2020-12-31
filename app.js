@@ -1,7 +1,4 @@
 const config = require("./config");
-const DAOQuestions = require("./models/DAOQuestions");
-const DAOUsers = require("./models/DAOUsers");
-//const utils = require("./utils");
 const path = require("path");
 const mysql = require("mysql");
 const express = require("express");
@@ -24,11 +21,8 @@ const app = express();
 // Crear un pool de conexiones a la base de datos de MySQL
 const pool = mysql.createPool(config.mysqlConfig);
 
-// Crear una instancia de DAOQuestions
-const daoQ = new DAOQuestions(pool);
 
-// Crear una instancia de DAOUsers
-const daoU = new DAOUsers(pool);
+
 
 const ficherosEstaticos = path.join(__dirname, "public");
 app.use(express.static(ficherosEstaticos));
@@ -48,8 +42,10 @@ const middlewareSession = session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(middlewareSession);
 
-const loginOutRouter = require("./controllers/controllerLoginOut");
+const loginOutRouter = require("./routers/routerLoginOut");
 app.use("/loginout",loginOutRouter);
+
+
 
 function isUserLogged(request, response, next){
     if (request.session.currentUser === undefined) {
@@ -61,7 +57,7 @@ function isUserLogged(request, response, next){
     }
 }
 
-app.get("/index", isUserLogged, function (request, response) {
+app.get("/index",isUserLogged, function (request, response) {
 
     response.render("index");         
 });
@@ -78,6 +74,10 @@ app.get("/preguntas", isUserLogged, function(request, response) {
     });
 });
 
+app.get("/logout",isUserLogged, function (request, response) {
+    request.session.destroy();
+    response.redirect("/loginout/login")       
+});
 
 
 
