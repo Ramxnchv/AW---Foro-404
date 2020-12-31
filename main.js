@@ -3,8 +3,8 @@
 const mysql = require("mysql");
 const config = require("./config");
 
-const DAOUsers = require("./DAOUsers");
-const DAOQuestions = require("./DAOQuestions");
+const DAOUsers = require("./models/DAOUsers");
+const DAOQuestions = require("./models/DAOQuestions");
 
 // Crear el pool de conexiones
 const pool = mysql.createPool({
@@ -23,7 +23,7 @@ let daoQuestion = new DAOQuestions(pool);
 //daoUser.getUserInfo("ramonros@ucm.es", cb_getUserInfo);
 //daoUser.getMedallas("ramonros@ucm.es", cb_getMedallas);
 //daoUser.getAllUsers(cb_getAllUsers);
-//daoUser.registerUser("ramonros@ucm.es","blablabla","Ramxnchv","/public/resources/userImages/magdalena.jpg",cb_registerUser);
+daoUser.registerUser("a","1234","Ramxnchv","/public/resources/userImages/magdalena.jpg",cb_registerUser);
 //daoQuestion.getAllQuestions(cb_getAllQuestions);
 //daoQuestion.getQuestionsByTag("JS",cb_getQuestionsByTag);
 //daoQuestion.getQuestionsByText("bla",cb_getQuestionsByText);

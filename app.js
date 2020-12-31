@@ -10,7 +10,7 @@ const mysqlSession = require("express-mysql-session");
 const MySQLStore = mysqlSession(session);
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const multer = require("multer");
+
 const fs = require("fs");
 const sessionStore = new MySQLStore({
     host: config.mysqlConfig.host,
@@ -53,14 +53,18 @@ app.use("/loginout",loginOutRouter);
 
 function isUserLogged(request, response, next){
     if (request.session.currentUser === undefined) {
-        response.redirect("/login");
+        response.redirect("/loginout/login");
     } else {
         response.locals = { userEmail: request.session.currentUser };
+      
         next();
     }
 }
 
+app.get("/index", isUserLogged, function (request, response) {
 
+    response.render("index");         
+});
 
 
 app.get("/preguntas", isUserLogged, function(request, response) {
@@ -81,10 +85,6 @@ app.get("/imagenUsuario", isUserLogged, function (request, response) {
     //TODO
     response.sendFile(path.join(__dirname, "profile_imgs", "homer.jpg"));       
 });
-
-
-
-
 
 
 
