@@ -21,10 +21,14 @@ class DAOUsers {
               }
               else {
                   if (rows.length === 0) {
-                      callback(null, false); //no está el usuario con el password proporcionado
+                      callback(null, null); //no está el usuario con el password proporcionado
                   }
                   else {
-                      callback(null, true);
+                      console.log(rows[0]);
+                      let infoNick = rows[0].nick;
+                      let infoImg = rows[0].imagen;
+                      let info = {infoNick,infoImg};
+                      callback(null, info);
                   }           
               }
           });
@@ -50,7 +54,7 @@ class DAOUsers {
                     let email = rows[0].email;
                     let nick = rows[0].nick;
                     let reputacion = rows[0].reputacion;
-                    let fechaBD = new Date(rows[i].fecha);
+                    let fechaBD = new Date(rows[0].fecha);
                     let fechaAlta = {dia:fechaBD.getDate(),mes:fechaBD.getMonth(),anyo:fechaBD.getFullYear()}
                     let fechastr = `${fechaAlta.dia}/${fechaAlta.mes}/${fechaAlta.anyo}`;
                     let img = rows[0].imagen;
@@ -105,6 +109,7 @@ class DAOUsers {
                     function (err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {
+                            console.log(err);
                             callback(new Error("Este email ya tiene un usuario asociado"),false);
                         }
                         else {
@@ -161,7 +166,7 @@ class DAOUsers {
         );
     }
 
-    getUserImage(email, callback) {
+    /*getUserImage(email, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos"));
@@ -187,7 +192,7 @@ class DAOUsers {
             }
         }
         );
-    }
+    }*/
   
   }
   module.exports = DAOUsers;

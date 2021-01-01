@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
-const multer = require("multer");
-const multerFactory = multer({storage:multer.memoryStorage()});
+
 
 const moldelUsuarios = require("../models/modelUsuarios");
 
@@ -35,13 +34,16 @@ class controllerUsuarios{
 
     postLogin(request,response,next){
         mUsuarios.isUserCorrect(request.body.correo,
-            request.body.password, function (error, ok) {
+            request.body.password, function (error, info) {
                 if (error) { // error de acceso a la base de datos
                     response.status(500);
                     response.render("login", { errorMsg: "Error interno de acceso a la base de datos" });
                 }
-                else if (ok) {
+                else if (info != null) {
                     request.session.currentUser = request.body.correo;
+                    request.session.currentUserNick = info.infoNick;
+                    request.session.currentUserImg = info.infoImg;
+                    console.log(info);
                     response.redirect("../index");
                 } 
                 else {
@@ -57,15 +59,24 @@ class controllerUsuarios{
     }
 
     postRegister(request,response,next){
+        var userImage ="";
+        //Si no recibe una imagen de perfil le asigna una aleatoria
+        if(!request.file){
+            userImage = `predeterminado${Math.floor(Math.random() * 5) + 1}.jpg` ;
+        }
+        else{
+            userImage = request.file.originalname;
+        }
+
         mUsuarios.registerUser(
             request.body.correo,
             request.body.password,
             request.body.nick,
-            request.file.filename,
+            userImage,
             function(err, result){
                 if (err) {
                     console.log(err.message);
-                    response.redirect("login");
+                    response.redirect("register");
                 } else {
                     response.redirect("login");
                 }

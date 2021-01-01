@@ -18,9 +18,14 @@
         </header>
         <div class="cuerpo">
             <form class="register" action="register" method="POST" enctype="multipart/form-data">
-                <div class="correo">Correo:* <input class="texto" placeholder="Correo" type="text" name="correo" accept="image/x-png,image/gif,image/jpeg" required></div>
-                <div class="pass">Contraseña:* <input class="textopass" placeholder="Contraseña" type="password" name="password" required></div>
-                <div class="pass">Confirmar contraseña:* <input class="textopassconfirm" placeholder="Confirmar contraseña" type="password" name="passwordconfirm" required></div>
+                <div class="correo">Correo:* <input class="texto" placeholder="Correo" type="text" name="correo" 
+                    accept="image/x-png,image/gif,image/jpeg" required></div>
+                <div class="pass">Contraseña:* <input class="textopass" placeholder="Contraseña" type="password" 
+                    name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                    title="Debe contener al menos un número, una letra mayúscula, una letra minúscula y al menos 8 caracteres o más" required></div>
+                <div class="pass">Confirmar contraseña:* <input class="textopassconfirm" placeholder="Confirmar contraseña" 
+                    type="password" name="passwordconfirm" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                    title="Debe contener al menos un número, una letra mayúscula, una letra minúscula y al menos 8 caracteres o más" required></div>
                 <div class="nick">Nick:* <input class="textonick" placeholder="Nick" type="text" name="nick" required></div>
                 <div class="imagen">Imagen de perfil: <input class="textoimagen" type="file" name="foto" accept="image/x-png,image/gif,image/jpeg"></div>
                 <div class="botones">

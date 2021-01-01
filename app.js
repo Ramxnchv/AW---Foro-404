@@ -8,6 +8,7 @@ const MySQLStore = mysqlSession(session);
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 
+
 const fs = require("fs");
 const sessionStore = new MySQLStore({
     host: config.mysqlConfig.host,
@@ -20,8 +21,8 @@ const app = express();
 
 // Crear un pool de conexiones a la base de datos de MySQL
 const pool = mysql.createPool(config.mysqlConfig);
-
-
+const moldelUsuarios = require("./models/modelUsuarios");
+const mUsuarios = new moldelUsuarios(pool);
 
 
 const ficherosEstaticos = path.join(__dirname, "public");
@@ -51,8 +52,9 @@ function isUserLogged(request, response, next){
     if (request.session.currentUser === undefined) {
         response.redirect("/loginout/login");
     } else {
-        response.locals = { userEmail: request.session.currentUser };
-      
+        
+        //response.locals = { userEmail: request.session.currentUser };
+        response.locals = { userNick : request.session.currentUserNick };
         next();
     }
 }
@@ -62,39 +64,14 @@ app.get("/index",isUserLogged, function (request, response) {
     response.render("index");         
 });
 
-
-app.get("/preguntas", isUserLogged, function(request, response) {
-    daoT.getAllQuestions(function(err,taskList){
-        if (err) {
-            console.log(err.message);
-        } else {
-            //response.render("tasks", { tasks: taskList});
-            response.redirect("/preguntas");
-        }
-    });
-});
-
 app.get("/logout",isUserLogged, function (request, response) {
     request.session.destroy();
     response.redirect("/loginout/login")       
 });
 
-
-
 app.get("/imagenUsuario", isUserLogged, function (request, response) {
-    //TODO
-    response.sendFile(path.join(__dirname, "profile_imgs", "homer.jpg"));       
+    response.sendFile(path.join(__dirname, "profile_imgs", request.session.currentUserImg));  
 });
-
-
-
-
-
-
-
-
-
-
 
 
 // Arrancar el servidor
