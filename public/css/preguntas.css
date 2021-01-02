@@ -257,6 +257,7 @@ a{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-left: auto;
 }
 
 .fecha{
@@ -270,6 +271,12 @@ a{
 .imgus{
     height: 45px;
     width: 45px;
+    border-radius: 100%;
+}
+
+.enlacetiqueta{
+    color: black;
+    margin-right: 2%;
 }
 
 .nickname{

@@ -22,8 +22,9 @@ const app = express();
 // Crear un pool de conexiones a la base de datos de MySQL
 const pool = mysql.createPool(config.mysqlConfig);
 const moldelUsuarios = require("./models/modelUsuarios");
+const modelPreguntas = require("./models/modelPreguntas");
 const mUsuarios = new moldelUsuarios(pool);
-
+const mPreguntas = new modelPreguntas(pool);
 
 const ficherosEstaticos = path.join(__dirname, "public");
 app.use(express.static(ficherosEstaticos));
@@ -43,10 +44,15 @@ const middlewareSession = session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(middlewareSession);
 
+//ROUTERS
+
 const loginOutRouter = require("./routers/routerLoginOut");
+const preguntasRouter = require("./routers/routerPreguntas");
+
 app.use("/loginout",loginOutRouter);
+app.use("/preguntas",preguntasRouter);
 
-
+//MIDDLEWARES
 
 function isUserLogged(request, response, next){
     if (request.session.currentUser === undefined) {
@@ -59,8 +65,9 @@ function isUserLogged(request, response, next){
     }
 }
 
-app.get("/index",isUserLogged, function (request, response) {
+//MANEJADORES DE RUTAS
 
+app.get("/index",isUserLogged, function (request, response) {
     response.render("index");         
 });
 
@@ -74,7 +81,7 @@ app.get("/imagenUsuario", isUserLogged, function (request, response) {
 });
 
 
-// Arrancar el servidor
+//ARRANCAR EL SERVIDOR
 app.listen(config.port, function(err) {
     if (err) {
         console.log("ERROR al iniciar el servidor");
