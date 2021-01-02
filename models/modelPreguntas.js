@@ -88,7 +88,7 @@ class DAOQuestions {
                 let titulo = rows[i].titulo;
                 let texto = rows[i].texto.substring(0, 150);
                 let fechaBD = new Date(rows[i].fecha);
-                let fecha = { dia: fechaBD.getDate(), mes: fechaBD.getMonth(), anyo: fechaBD.getFullYear() }
+                let fecha = { dia: fechaBD.getDate(), mes: ("0" + (fechaBD.getMonth() + 1)).slice(-2), anyo: fechaBD.getFullYear() }
                 let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
                 let etiquetas = [rows[i].nombreEtiqueta];
                 let nick = rows[i].nick;

@@ -1,11 +1,15 @@
 const controllerPreguntas = require("../controllers/controllerPreguntas")
 const express = require("express");
 const path = require("path");
+const bodyParser = require("body-parser");
 const router = express.Router();
 const cPreguntas = new controllerPreguntas();
-const ficherosEstaticos = path.join(__dirname, "../public");
-router.use(express.static(ficherosEstaticos));
+
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(express.static(path.join(__dirname, "../public")));
+router.use(express.static(path.join(__dirname, "../../public")));
 router.use(express.static(path.join(__dirname, "../profile_imgs")));
+router.use(express.static(path.join(__dirname, "../../profile_imgs")));
 
 function isUserLogged(request, response, next){
     if (request.session.currentUser === undefined) {

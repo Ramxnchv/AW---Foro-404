@@ -1,0 +1,37 @@
+<!--Grupo 14 - Ramon Rosa Perez y Victor Velazquez Cabrera-->
+<!DOCTYPE html> 
+<html lang="es">
+   <head>
+      <title>404</title>
+      <meta charset="utf-8"/>
+      <link rel="stylesheet" href="css/formularpregunta.css" media="screen">
+      <link rel="icon" type="image/png" href="img/404-error.png">
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+    </head>
+   <body>
+    <%- include("header") %>
+        <div class="cuerpo">
+           <h2 class="titulopagina">Formular una pregunta</h2>
+            <form class="formulariopregunta" action="/preguntas/formular" method="POST">
+                <div class="campo">
+                <div class="apartadonombre">Título</div>
+                    <div class="apartadoinfo">Se específico e imagína que estas haciendo la pregunta a otra persona</div>
+                    <input class="inputtitulo" placeholder="¿Cuál es tu pregunta sobre programación de aplicaciones web?" type="text" name="titulopregunta" required>
+                </div>
+                <div class="campo">
+                    <div class="apartadonombre">Cuerpo</div>
+                    <div class="apartadoinfo">Incluye toda la información que alguien necesitaría para responder tu pregunta</div>
+                    <textarea class="inputcuerpo"  type="text" name="cuerpopregunta" required></textarea> 
+                </div>
+                <div class="campo">
+                    <div class="apartadonombre">Etiquetas</div>
+                    <div class="apartadoinfo">Añade hasta 5 etiquetas para describir sobre qué tratar tu pregunta</div>
+                    <input class="inputtitulo" placeholder="Por ejemplo: @node@express" type="text" name="etiquetaspregunta" >
+                </div>
+                <button class="buscar" type="submit">Publicar</button>
+             </form>
+             <h4 class="error"><%= error %></h4>
+        </div>
+   </body>
+</html>

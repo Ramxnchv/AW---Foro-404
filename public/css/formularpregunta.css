@@ -207,3 +207,8 @@ header{
     resize: vertical;
     min-height: 20px;
 }
+
+.error{
+    margin-top: 20px;
+    color:red;
+}
