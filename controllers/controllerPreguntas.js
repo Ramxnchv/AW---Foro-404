@@ -83,7 +83,83 @@ class controllerPreguntas{
     }
 
     getPregunta(request,response,next){
-        
+        mPreguntas.getQuestionInfo(request.params.idPregunta,function(err,questionInfo){
+            if(err){
+                console.log(err.message);
+            }
+            else{
+                mPreguntas.getAnswersByQuestion(request.params.idPregunta, function(err, answers){
+                    if(err){
+                        console.log(err.message);
+                    }
+                    else{
+                        mPreguntas.updateVisitas(request.params.idPregunta, function(err, result){
+                            if(err){
+                                console.log(err.message);
+                            }
+                            else{
+                                response.render("pregunta", { pregunta: questionInfo, respuestas: answers});
+                            }
+                        }); 
+                    }
+                });
+            }
+        });
+    }
+
+    postRespuesta(request,response,next){
+        mPreguntas.insertAnswer(request.session.currentUser,request.body.cuerporespuesta,request.params.idPregunta,function(err){
+            if (err) {
+                console.log(err.message);
+            
+            } else {
+                response.redirect(`/preguntas/${request.params.idPregunta}`);
+            }
+        });
+    }
+
+    postVotoPositivo(request,response,next){
+        mPreguntas.insertarVotoPregunta(request.params.idPregunta,request.session.currentUser,1,function(err, result){
+            if (err) {
+                console.log(err.message);
+            
+            } else {
+                response.redirect(`/preguntas/${request.params.idPregunta}`);
+            }
+        });
+    }
+
+    postVotoNegativo(request,response,next){
+        mPreguntas.insertarVotoPregunta(request.params.idPregunta,request.session.currentUser,-1,function(err, result){
+            if (err) {
+                console.log(err.message);
+            
+            } else {
+                response.redirect(`/preguntas/${request.params.idPregunta}`);
+            }
+        });
+    }
+
+    postVotoRespuestaPositivo(request,response,next){
+        mPreguntas.insertarVotoRespuesta(request.params.idRespuesta,request.session.currentUser,1,function(err, result){
+            if (err) {
+                console.log(err.message);
+            
+            } else {
+                response.redirect(`/preguntas/${request.params.idPregunta}`);
+            }
+        });
+    }
+
+    postVotoRespuestaNegativo(request,response,next){
+        mPreguntas.insertarVotoRespuesta(request.params.idRespuesta,request.session.currentUser,-1,function(err, result){
+            if (err) {
+                console.log(err.message);
+            
+            } else {
+                response.redirect(`/preguntas/${request.params.idPregunta}`);
+            }
+        });
     }
 
 }

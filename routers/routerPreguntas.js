@@ -36,4 +36,15 @@ router.get("/buscar", isUserLogged, cPreguntas.getPreguntasPorTexto);
 
 router.get("/:idPregunta", isUserLogged, cPreguntas.getPregunta);
 
+router.post("/:idPregunta/nuevarespuesta", isUserLogged, cPreguntas.postRespuesta);
+
+router.post("/:idPregunta/votopositivo", isUserLogged, cPreguntas.postVotoPositivo);
+
+router.post("/:idPregunta/votonegativo", isUserLogged, cPreguntas.postVotoNegativo);
+
+router.post("/:idPregunta/:idRespuesta/votopositivo", isUserLogged, cPreguntas.postVotoRespuestaPositivo);
+
+router.post("/:idPregunta/:idRespuesta/votonegativo", isUserLogged, cPreguntas.postVotoRespuestaNegativo);
+
+
 module.exports = router;

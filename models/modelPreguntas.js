@@ -85,6 +85,7 @@ class DAOQuestions {
               let questionsInfo = [];
 
               for (let i = 0; i < rows.length; ++i) {
+                let id = rows[i].id;
                 let titulo = rows[i].titulo;
                 let texto = rows[i].texto.substring(0, 150);
                 let fechaBD = new Date(rows[i].fecha);
@@ -98,7 +99,7 @@ class DAOQuestions {
                   etiquetas.push(rows[i + 1].nombreEtiqueta);
                   i++;
                 }
-                let questionInfo = { titulo, texto, etiquetas, fechastr, nick, imagen };
+                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, imagen };
                 questionsInfo.push(questionInfo);
 
               }
@@ -128,6 +129,7 @@ class DAOQuestions {
               let questionsInfo = [];
 
               for (let i = 0; i < rows.length; ++i) {
+                let id = rows[i].id;
                 let titulo = rows[i].titulo;
                 let texto = rows[i].texto.substring(0, 150);
                 let fechaBD = new Date(rows[i].fecha);
@@ -141,7 +143,7 @@ class DAOQuestions {
                   etiquetas.push(rows[i + 1].nombreEtiqueta);
                   i++;
                 }
-                let questionInfo = { titulo, texto, etiquetas, fechastr, nick, imagen };
+                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, imagen };
                 questionsInfo.push(questionInfo);
 
               }
@@ -175,6 +177,7 @@ class DAOQuestions {
               let questionsInfo = [];
 
               for (let i = 0; i < rows.length; ++i) {
+                let id = rows[i].id;
                 let titulo = rows[i].titulo;
                 let texto = rows[i].texto.substring(0, 150);
                 let fechaBD = new Date(rows[i].fecha);
@@ -188,7 +191,7 @@ class DAOQuestions {
                   etiquetas.push(rows[i + 1].nombreEtiqueta);
                   i++;
                 }
-                let questionInfo = { titulo, texto, etiquetas, fechastr, nick, imagen };
+                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, imagen };
                 questionsInfo.push(questionInfo);
 
               }
@@ -207,7 +210,7 @@ class DAOQuestions {
         callback(new Error("Error de conexión a la base de datos"));
       }
       else {
-        connection.query("SELECT respuesta.texto, respuesta.puntos, respuesta.fecha, usuario.nick, usuario.imagen FROM pregunta JOIN respuesta ON pregunta.id = respuesta.idPregunta JOIN usuario ON respuesta.emailCreador = usuario.email WHERE respuesta.idPregunta = ?",
+        connection.query("SELECT respuesta.id, respuesta.texto, respuesta.puntos, respuesta.fecha, usuario.nick, usuario.imagen FROM pregunta JOIN respuesta ON pregunta.id = respuesta.idPregunta JOIN usuario ON respuesta.emailCreador = usuario.email WHERE respuesta.idPregunta = ?",
           [idPregunta],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
@@ -217,6 +220,7 @@ class DAOQuestions {
             else {
               let answersInfo = [];
               rows.forEach(row => {
+                let id = row.id;
                 let texto = row.texto;
                 let puntos = row.puntos;
                 let fechaBD = new Date(row.fecha);
@@ -225,7 +229,7 @@ class DAOQuestions {
                 let nick = row.nick;
                 let imagen = row.imagen;
 
-                let answerInfo = { texto, puntos, fechastr, nick, imagen };
+                let answerInfo = { id, texto, puntos, fechastr, nick, imagen };
                 answersInfo.push(answerInfo);
               });
               callback(null, answersInfo);
@@ -253,6 +257,7 @@ class DAOQuestions {
             else {
               let questionInfo = {};
               for (let i = 0; i < rows.length; ++i) {
+                let id = rows[i].id;
                 let titulo = rows[i].titulo;
                 let texto = rows[i].texto.substring(0, 150);
                 let fechaBD = new Date(rows[i].fecha);
@@ -268,7 +273,7 @@ class DAOQuestions {
                   etiquetas.push(rows[i + 1].nombreEtiqueta);
                   i++;
                 }
-                questionInfo = { titulo, texto, etiquetas, visitas, puntos, fechastr, nick, imagen };
+                questionInfo = { id, titulo, texto, etiquetas, visitas, puntos, fechastr, nick, imagen };
 
               }
 
@@ -289,12 +294,12 @@ class DAOQuestions {
         connection.query("INSERT INTO respuesta (respuesta.emailCreador,respuesta.texto, respuesta.idPregunta) VALUES (?,?,?) ",
           [email, texto, idPregunta],
           function (error, r) {
-            idRespuesta = result.insertId;
+            let idRespuesta = r.insertId;
             if (err) {
               callback(new Error("Error de acceso a la base de datos"));
             }
             else{
-              callback(null, true);
+              callback(null);
             }
           });
       }
@@ -320,6 +325,7 @@ class DAOQuestions {
               let questionsInfo = [];
 
               for (let i = 0; i < rows.length; ++i) {
+                let id = rows[i].id;
                 let titulo = rows[i].titulo;
                 let texto = rows[i].texto.substring(0, 150);
                 let fechaBD = new Date(rows[i].fecha);
@@ -333,7 +339,7 @@ class DAOQuestions {
                   etiquetas.push(rows[i + 1].nombreEtiqueta);
                   i++;
                 }
-                let questionInfo = { titulo, texto, etiquetas, fechastr, nick, imagen };
+                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, imagen };
                 questionsInfo.push(questionInfo);
 
               }
