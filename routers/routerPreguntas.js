@@ -18,18 +18,18 @@ function isUserLogged(request, response, next){
 
 router.use(isUserLogged);
 
-router.get("/", cPreguntas.getPreguntas);
+router.get("/", isUserLogged, cPreguntas.getPreguntas);
 
-router.get("/formular",cPreguntas.getFormularPregunta);
+router.get("/formular", isUserLogged, cPreguntas.getFormularPregunta);
 
-router.post("/formular",cPreguntas.postFormularPregunta);
+router.post("/formular", isUserLogged, cPreguntas.postFormularPregunta);
 
-router.get("/etiquetadas/:idEtiqueta", cPreguntas.getPreguntasPorEtiqueta);
+router.get("/etiquetadas/:idEtiqueta", isUserLogged, cPreguntas.getPreguntasPorEtiqueta);
 
-router.get("/sinresponder", cPreguntas.getPreguntasSinResponder);
+router.get("/sinresponder", isUserLogged, cPreguntas.getPreguntasSinResponder);
 
-router.get("/buscar", cPreguntas.getPreguntasPorTexto);
+router.get("/buscar", isUserLogged, cPreguntas.getPreguntasPorTexto);
 
-router.get("/:idPregunta", cPreguntas.getPregunta);
+router.get("/:idPregunta", isUserLogged, cPreguntas.getPregunta);
 
 module.exports = router;
