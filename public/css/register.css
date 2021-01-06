@@ -32,6 +32,12 @@ header{
     background: linear-gradient(180deg, rgba(81,184,236,0.3) 0%, rgba(255,255,255,1) 71%);
 }
 
+.cuerpo{
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+}
+
 .register{
     display: flex;
     flex-direction: column;
@@ -39,12 +45,6 @@ header{
     height: 300px;
     justify-content: space-evenly;
     min-width: 600px;
-}
-
-.cuerpo{
-    margin-top: 5%;
-    display: flex;
-    justify-content: center;
 }
 
 .correo{
@@ -130,3 +130,9 @@ header{
     cursor: pointer;
 }
 
+.error{
+    color: rgb(173, 6, 6);
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+}

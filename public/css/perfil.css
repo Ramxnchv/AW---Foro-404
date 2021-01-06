@@ -171,6 +171,7 @@ header{
 .imgperf{
     height: 75px;
     width: 75px;
+    border-radius: 100%;
 }
 
 .username{
@@ -362,4 +363,11 @@ header{
     background-color: rgb(70, 69, 69);
     color: white;
     margin-bottom: 5px;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nummedallas{
+    margin-right: 3px;
 }

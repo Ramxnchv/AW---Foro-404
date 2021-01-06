@@ -11,40 +11,42 @@ router.use(express.static(path.join(__dirname, "../../public")));
 router.use(express.static(path.join(__dirname, "../profile_imgs")));
 router.use(express.static(path.join(__dirname, "../../profile_imgs")));
 
-function isUserLogged(request, response, next){
+/*function isUserLogged(request, response, next){
     if (request.session.currentUser === undefined) {
         response.redirect("/loginout/login");
     } else {
-        response.locals = { userNick : request.session.currentUserNick };
+        //response.locals = { userEmail: request.session.currentUser };
+        //response.locals = { userID: request.session.currentUserID };
+        response.locals = { userNick : request.session.currentUserNick, userID: request.session.currentUserID };
         next();
     }
 }
 
-router.use(isUserLogged);
+router.use(isUserLogged);*/
 
-router.get("/", isUserLogged, cPreguntas.getPreguntas);
+router.get("/", cPreguntas.getPreguntas);
 
-router.get("/formular", isUserLogged, cPreguntas.getFormularPregunta);
+router.get("/formular", cPreguntas.getFormularPregunta);
 
-router.post("/formular", isUserLogged, cPreguntas.postFormularPregunta);
+router.post("/formular", cPreguntas.postFormularPregunta);
 
-router.get("/etiquetadas/:idEtiqueta", isUserLogged, cPreguntas.getPreguntasPorEtiqueta);
+router.get("/etiquetadas/:idEtiqueta", cPreguntas.getPreguntasPorEtiqueta);
 
-router.get("/sinresponder", isUserLogged, cPreguntas.getPreguntasSinResponder);
+router.get("/sinresponder", cPreguntas.getPreguntasSinResponder);
 
-router.get("/buscar", isUserLogged, cPreguntas.getPreguntasPorTexto);
+router.get("/buscar", cPreguntas.getPreguntasPorTexto);
 
-router.get("/:idPregunta", isUserLogged, cPreguntas.getPregunta);
+router.get("/:idPregunta", cPreguntas.getPregunta);
 
-router.post("/:idPregunta/nuevarespuesta", isUserLogged, cPreguntas.postRespuesta);
+router.post("/:idPregunta/nuevarespuesta", cPreguntas.postRespuesta);
 
-router.post("/:idPregunta/votopositivo", isUserLogged, cPreguntas.postVotoPositivo);
+router.post("/:idPregunta/votopositivo", cPreguntas.postVotoPositivo);
 
-router.post("/:idPregunta/votonegativo", isUserLogged, cPreguntas.postVotoNegativo);
+router.post("/:idPregunta/votonegativo", cPreguntas.postVotoNegativo);
 
-router.post("/:idPregunta/:idRespuesta/votopositivo", isUserLogged, cPreguntas.postVotoRespuestaPositivo);
+router.post("/:idPregunta/:idRespuesta/votopositivo", cPreguntas.postVotoRespuestaPositivo);
 
-router.post("/:idPregunta/:idRespuesta/votonegativo", isUserLogged, cPreguntas.postVotoRespuestaNegativo);
+router.post("/:idPregunta/:idRespuesta/votonegativo", cPreguntas.postVotoRespuestaNegativo);
 
 
 module.exports = router;

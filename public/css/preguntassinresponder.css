@@ -39,6 +39,7 @@ header{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    margin-top: -30px;
 }
 
 .enlace{
@@ -53,7 +54,12 @@ header{
     border-top-right-radius: 120px;
     border-bottom-right-radius: 120px;
     border: 2px ridge black;
+    margin-bottom: 3px;
+
     transform: scale(1.15);
+    /* transform: translateX(15px); */
+    transition-delay: .1s;
+    transition-duration: .3s;
 }
 
 .enlace:hover{
@@ -215,11 +221,14 @@ a{
     border: 1px solid rgb(216, 215, 215,0.5);
     margin-bottom: 20px;
     padding: 10px;
+    min-width: 720px;
+    max-width: 800px;
 }
 
 .izq{
     display: flex;
     flex-direction: column;
+    width: 75%;
 }
 
 .titulo{
@@ -234,6 +243,7 @@ a{
 .texto{
     margin-top: 10px;
     font-size: 12px;
+    overflow-wrap: break-word;
 }
 
 .etiquetas{
@@ -249,11 +259,17 @@ a{
     padding: 3px;
 }
 
+.enlacetiqueta{
+    color: black;
+    margin-right: 2%;
+}
+
 .der{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-left: auto;
 }
 
 .fecha{
@@ -268,6 +284,7 @@ a{
 .imgus{
     height: 45px;
     width: 45px;
+    border-radius: 100%;
 }
 
 .nickname{

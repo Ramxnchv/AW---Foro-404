@@ -72,7 +72,7 @@ class DAOQuestions {
         callback(new Error("Error de conexión a la base de datos1"));
       }
       else {
-        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen FROM pregunta JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email",
+        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen, usuario.ID AS usuarioid FROM pregunta LEFT JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email",
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
             if (err) {
@@ -87,19 +87,24 @@ class DAOQuestions {
               for (let i = 0; i < rows.length; ++i) {
                 let id = rows[i].id;
                 let titulo = rows[i].titulo;
-                let texto = rows[i].texto.substring(0, 150);
+                let texto = rows[i].texto;
+                if(rows[i].texto.length > 150){
+                  texto = texto.substring(0, 150);
+                  texto += "...";
+                }
                 let fechaBD = new Date(rows[i].fecha);
                 let fecha = { dia: fechaBD.getDate(), mes: ("0" + (fechaBD.getMonth() + 1)).slice(-2), anyo: fechaBD.getFullYear() }
                 let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
                 let etiquetas = [rows[i].nombreEtiqueta];
                 let nick = rows[i].nick;
+                let usuarioid = rows[i].usuarioid;
                 let imagen = rows[i].imagen;
                 let indice = i;
                 while (i + 1 < rows.length && rows[indice].id == rows[i + 1].id) {
                   etiquetas.push(rows[i + 1].nombreEtiqueta);
                   i++;
                 }
-                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, imagen };
+                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, usuarioid, imagen };
                 questionsInfo.push(questionInfo);
 
               }
@@ -118,7 +123,7 @@ class DAOQuestions {
         callback(new Error("Error de conexión a la base de datos1"));
       }
       else {
-        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen FROM pregunta JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email",
+        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen, usuario.ID AS usuarioid FROM pregunta JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email",
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
             if (err) {
@@ -131,19 +136,24 @@ class DAOQuestions {
               for (let i = 0; i < rows.length; ++i) {
                 let id = rows[i].id;
                 let titulo = rows[i].titulo;
-                let texto = rows[i].texto.substring(0, 150);
+                let texto = rows[i].texto;
+                if(rows[i].texto.length > 150){
+                  texto = texto.substring(0, 150);
+                  texto += "...";
+                }
                 let fechaBD = new Date(rows[i].fecha);
                 let fecha = { dia: fechaBD.getDate(), mes: fechaBD.getMonth(), anyo: fechaBD.getFullYear() }
                 let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
                 let etiquetas = [rows[i].nombreEtiqueta];
                 let nick = rows[i].nick;
                 let imagen = rows[i].imagen;
+                let usuarioid = rows[i].usuarioid;
                 let indice = i;
                 while (i + 1 < rows.length && rows[indice].id == rows[i + 1].id) {
                   etiquetas.push(rows[i + 1].nombreEtiqueta);
                   i++;
                 }
-                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, imagen };
+                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, usuarioid, imagen };
                 questionsInfo.push(questionInfo);
 
               }
@@ -164,7 +174,7 @@ class DAOQuestions {
         callback(new Error("Error de conexión a la base de datos1"));
       }
       else {
-        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen FROM pregunta JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email WHERE pregunta.titulo LIKE ? OR pregunta.texto LIKE ?",
+        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen, usuario.ID AS usuarioid FROM pregunta LEFT JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email WHERE pregunta.titulo LIKE ? OR pregunta.texto LIKE ?",
           [t, t],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
@@ -179,19 +189,24 @@ class DAOQuestions {
               for (let i = 0; i < rows.length; ++i) {
                 let id = rows[i].id;
                 let titulo = rows[i].titulo;
-                let texto = rows[i].texto.substring(0, 150);
+                let texto = rows[i].texto;
+                if(rows[i].texto.length > 150){
+                  texto = texto.substring(0, 150);
+                  texto += "...";
+                }
                 let fechaBD = new Date(rows[i].fecha);
                 let fecha = { dia: fechaBD.getDate(), mes: fechaBD.getMonth(), anyo: fechaBD.getFullYear() }
                 let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
                 let etiquetas = [rows[i].nombreEtiqueta];
                 let nick = rows[i].nick;
+                let usuarioid = rows[i].usuarioid;
                 let imagen = rows[i].imagen;
                 let indice = i;
                 while (i + 1 < rows.length && rows[indice].id == rows[i + 1].id) {
                   etiquetas.push(rows[i + 1].nombreEtiqueta);
                   i++;
                 }
-                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, imagen };
+                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, usuarioid, imagen };
                 questionsInfo.push(questionInfo);
 
               }
@@ -210,7 +225,7 @@ class DAOQuestions {
         callback(new Error("Error de conexión a la base de datos"));
       }
       else {
-        connection.query("SELECT respuesta.id, respuesta.texto, respuesta.puntos, respuesta.fecha, usuario.nick, usuario.imagen FROM pregunta JOIN respuesta ON pregunta.id = respuesta.idPregunta JOIN usuario ON respuesta.emailCreador = usuario.email WHERE respuesta.idPregunta = ?",
+        connection.query("SELECT respuesta.id, respuesta.texto, respuesta.puntos, respuesta.fecha, usuario.nick, usuario.imagen, usuario.ID AS usuarioid FROM pregunta JOIN respuesta ON pregunta.id = respuesta.idPregunta JOIN usuario ON respuesta.emailCreador = usuario.email WHERE respuesta.idPregunta = ?",
           [idPregunta],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
@@ -227,9 +242,10 @@ class DAOQuestions {
                 let fecha = { dia: fechaBD.getDate(), mes: fechaBD.getMonth(), anyo: fechaBD.getFullYear() }
                 let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
                 let nick = row.nick;
+                let usuarioid = row.usuarioid;
                 let imagen = row.imagen;
 
-                let answerInfo = { id, texto, puntos, fechastr, nick, imagen };
+                let answerInfo = { id, texto, puntos, fechastr, nick, usuarioid, imagen };
                 answersInfo.push(answerInfo);
               });
               callback(null, answersInfo);
@@ -246,7 +262,7 @@ class DAOQuestions {
         callback(new Error("Error de conexión a la base de datos1"));
       }
       else {
-        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, pregunta.numVisitas, pregunta.puntos, usuario.nick, usuario.imagen FROM pregunta JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email WHERE pregunta.id = ?",
+        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, pregunta.numVisitas, pregunta.puntos, usuario.nick, usuario.imagen, usuario.ID AS usuarioid FROM pregunta LEFT JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email WHERE pregunta.id = ?",
           [idPregunta],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
@@ -259,7 +275,7 @@ class DAOQuestions {
               for (let i = 0; i < rows.length; ++i) {
                 let id = rows[i].id;
                 let titulo = rows[i].titulo;
-                let texto = rows[i].texto.substring(0, 150);
+                let texto = rows[i].texto;
                 let fechaBD = new Date(rows[i].fecha);
                 let fecha = { dia: fechaBD.getDate(), mes: fechaBD.getMonth(), anyo: fechaBD.getFullYear() }
                 let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
@@ -268,12 +284,13 @@ class DAOQuestions {
                 let puntos = rows[i].puntos;
                 let nick = rows[i].nick;
                 let imagen = rows[i].imagen;
+                let usuarioid = rows[i].usuarioid;
                 let indice = i;
                 while (i + 1 < rows.length && rows[indice].id == rows[i + 1].id) {
                   etiquetas.push(rows[i + 1].nombreEtiqueta);
                   i++;
                 }
-                questionInfo = { id, titulo, texto, etiquetas, visitas, puntos, fechastr, nick, imagen };
+                questionInfo = { id, titulo, texto, etiquetas, visitas, puntos, fechastr, nick, usuarioid, imagen };
 
               }
 
@@ -312,7 +329,7 @@ class DAOQuestions {
         callback(new Error("Error de conexión a la base de datos1"));
       }
       else {
-        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen FROM pregunta JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email LEFT JOIN respuesta ON pregunta.id = respuesta.idPregunta WHERE respuesta.id IS NULL",
+        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen, usuario.ID AS usuarioid FROM pregunta LEFT JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email LEFT JOIN respuesta ON pregunta.id = respuesta.idPregunta WHERE respuesta.id IS NULL",
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
             if (err) {
@@ -327,19 +344,24 @@ class DAOQuestions {
               for (let i = 0; i < rows.length; ++i) {
                 let id = rows[i].id;
                 let titulo = rows[i].titulo;
-                let texto = rows[i].texto.substring(0, 150);
+                let texto = rows[i].texto;
+                if(rows[i].texto.length > 150){
+                  texto = texto.substring(0, 150);
+                  texto += "...";
+                }
                 let fechaBD = new Date(rows[i].fecha);
                 let fecha = { dia: fechaBD.getDate(), mes: fechaBD.getMonth(), anyo: fechaBD.getFullYear() }
                 let fechastr = `${fecha.dia}/${fecha.mes}/${fecha.anyo}`;
                 let etiquetas = [rows[i].nombreEtiqueta];
                 let nick = rows[i].nick;
                 let imagen = rows[i].imagen;
+                let usuarioid = rows[i].usuarioid;
                 let indice = i;
                 while (i + 1 < rows.length && rows[indice].id == rows[i + 1].id) {
                   etiquetas.push(rows[i + 1].nombreEtiqueta);
                   i++;
                 }
-                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, imagen };
+                let questionInfo = { id, titulo, texto, etiquetas, fechastr, nick, usuarioid, imagen };
                 questionsInfo.push(questionInfo);
 
               }

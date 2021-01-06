@@ -1,0 +1,117 @@
+<!--Grupo 14 - Ramon Rosa Perez y Victor Velazquez Cabrera-->
+<!DOCTYPE html> 
+<html lang="es">
+   <head>
+      <title>404</title>
+      <meta charset="utf-8"/>
+      <link rel="stylesheet" href="../css/perfil.css" media="screen">
+      <link rel="icon" type="image/png" href="img/404-error.png">
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+    </head>
+   <body>
+    <%- include("header") %>  
+    
+    <div class ="contenido">
+        <div class="userinfo">
+            <div class="username"> <%= usuario.nick %></div>
+            <div class="imgperfil"><img class="imgperf" src="../<%= usuario.img %>"></img></div>
+            <div class="alta">Miembro desde <%- usuario.fechastr %></div>
+        </div>
+        <div class="stats">
+            <div class="titulostats">ESTADISTICAS</div>
+            <div class="reputacion">
+                <div class="titulorep">
+                    Reputación
+                </div>
+                <div class="rep">
+                    <%= usuario.reputacion %>
+                </div>
+            </div>
+            <div class="segundalinea">
+            <div class="preguntass">
+                <div class="titulopreg">
+                    Preguntas
+                </div>
+                <div class="preg">
+                    <%= usuario.numPreguntas %>
+                </div>
+            </div>
+            <div class="respuestas">
+                <div class="tituloresp">
+                    Respuestas
+                </div>
+                <div class="resp">
+                    <%= usuario.numRespuestas %>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="medallas">
+            <div class="titulostats">MEDALLAS</div>
+            <div class="medallascontent">
+            <div class="bronce">
+                <div class="marcobronce">
+                <div class="titulobr">
+                    BRONCE
+                </div>
+                <div class="numbronce">
+                    <%= medallas.bronce.num %>
+                </div>
+                </div>
+                <div class="listamedallas">
+                    <% medallas.bronce.lista.forEach(function(medalla){ %>
+                        <div class="medalla">
+                            <%= medalla.nombre %>
+                            <% if(medalla.cantidad > 1){%>
+                                <div class="nummedallas">x<%= medalla.cantidad %></div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+            <div class="plata">
+                <div class="marcoplata">
+                <div class="titulopl">
+                    PLATA
+                </div>
+                <div class="numplata">
+                    <%= medallas.plata.num %>
+                </div>
+                </div>
+                <div class="listamedallas">
+                    <% medallas.plata.lista.forEach(function(medalla){ %>
+                        <div class="medalla">
+                            <%= medalla.nombre %>
+                            <% if(medalla.cantidad > 1){%>
+                                <div class="nummedallas">x<%= medalla.cantidad %></div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+            <div class="oro">
+                <div class="marcooro">
+                <div class="tituloor">
+                    ORO
+                </div>
+                <div class="numoro">
+                    <%= medallas.oro.num %>
+                </div>
+                </div>
+                <div class="listamedallas">
+                    <% medallas.oro.lista.forEach(function(medalla){ %>
+                        <div class="medalla">
+                            <%= medalla.nombre %>
+                            <% if(medalla.cantidad > 1){%>
+                                <div class="nummedallas">x<%= medalla.cantidad %></div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+   </body>
+</html>

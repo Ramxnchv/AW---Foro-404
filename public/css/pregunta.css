@@ -9,6 +9,10 @@
     width: 300px;
 }
 
+a{
+    text-decoration: none;
+}
+
 header{
     display: flex;
     flex-direction: column;
@@ -165,6 +169,7 @@ header{
     margin-bottom: 15px;
     margin-left: 10px;
     margin-right: 10px;
+    overflow-wrap: break-word;
 }
 
 .etiquetas{

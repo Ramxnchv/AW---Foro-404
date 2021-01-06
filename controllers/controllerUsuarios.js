@@ -43,7 +43,7 @@ class controllerUsuarios{
                     request.session.currentUser = request.body.correo;
                     request.session.currentUserNick = info.infoNick;
                     request.session.currentUserImg = info.infoImg;
-                    console.log(info);
+                    request.session.currentUserID = info.infoID;
                     response.redirect("../index");
                 } 
                 else {
@@ -55,36 +55,78 @@ class controllerUsuarios{
     }
 
     getRegister(request,response,next){
-        response.render("register");
+        response.render("register" ,{ errorMsg: null });
     }
 
     postRegister(request,response,next){
-        var userImage ="";
-        //Si no recibe una imagen de perfil le asigna una aleatoria
-        if(!request.file){
-            userImage = `predeterminado${Math.floor(Math.random() * 5) + 1}.jpg` ;
-        }
-        else{
-            userImage = request.file.originalname;
-        }
-
-        mUsuarios.registerUser(
-            request.body.correo,
-            request.body.password,
-            request.body.nick,
-            userImage,
-            function(err, result){
-                if (err) {
-                    console.log(err.message);
-                    response.redirect("register");
-                } else {
-                    response.redirect("login");
-                }
+        if (request.body.password === request.body.passwordconfirm){
+            var userImage ="";
+            //Si no recibe una imagen de perfil le asigna una aleatoria
+            if(!request.file){
+                userImage = `predeterminado${Math.floor(Math.random() * 5) + 1}.jpg` ;
             }
-        )
+            else{
+                userImage = request.file.originalname;
+            }
+
+            mUsuarios.registerUser(
+                request.body.correo,
+                request.body.password,
+                request.body.nick,
+                userImage,
+                function(err, result){
+                    if (err) {
+                        console.log(err.message);
+                        response.redirect("register");
+                    } else {
+                        response.redirect("login");
+                    }
+                }
+            )
+        }else{
+            response.render("register", { errorMsg: "Confirmación de contraseña invalida" });
+        }
     }
 
-    
+    getUsuarios(request,response, next){
+        mUsuarios.getAllUsers(function(err,usuariosLista){
+            if(err){
+                console.log(err.message);
+            }
+            else{
+                response.render("usuarios", { usuarios: usuariosLista});
+            }
+        });
+    }
+
+    getUsuariosFiltrar(request,response, next){
+        mUsuarios.getUsersByText(request.query.filtrarusuario,function(err,usuariosLista){
+            if(err){
+                console.log(err.message);
+            }
+            else{
+                response.render("usuariosportexto", { usuarios: usuariosLista, busqueda: request.query.filtrarusuario});
+            }
+        });
+    }
+
+    getPerfilUsuario(request,response, next){
+        mUsuarios.getUserInfo(request.params.idUsuario, function(err, usuarioInfo){
+            if(err){
+                console.log(err.message);
+            }
+            else{
+                mUsuarios.getMedallas(request.params.idUsuario,function(err, medallasInfo){
+                    if(err){
+                        console.log(err.menssage);
+                    }
+                    else{
+                        response.render("perfil", { usuario: usuarioInfo, medallas: medallasInfo});
+                    }
+                })
+            }
+        })
+    }
 }
 
 module.exports = controllerUsuarios;

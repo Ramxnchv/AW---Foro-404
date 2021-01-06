@@ -22,7 +22,7 @@ router.get("/login", cUsuarios.getLogin);
 
 router.post("/login",cUsuarios.postLogin);
 
-router.get("/register.html",cUsuarios.getRegister);
+router.get("/register",cUsuarios.getRegister);
 
 router.post("/register", multerFactory.single("foto"), cUsuarios.postRegister);
 

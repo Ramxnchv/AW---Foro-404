@@ -9,13 +9,12 @@
     width: 300px;
 }
 
-
 header{
     display: flex;
     flex-direction: column;
     position: fixed;
     width: 100%;
-    margin-top: -170px;
+    
     backface-visibility: unset;
 }
 
@@ -23,8 +22,9 @@ header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color:#ccecfc;
+    background-color:rgb(81, 184, 236, 0.3);
     padding-bottom: 2px;
+    margin-top: -170px;
 }
 
 
@@ -32,21 +32,13 @@ header{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    margin-top: -30px;
 }
 
 .enlace{
     padding-top: 5px;
     padding-bottom: 5px;
     border: 2px outset rgb(81, 184, 236, 0.3);
-}
-
-.enlacepreguntas{
-    background-color: rgb(81, 184, 236);
-    color: white;
-    border-top-right-radius: 120px;
-    border-bottom-right-radius: 120px;
-    border: 2px ridge black;
-    transform: scale(1.15);
 }
 
 .enlace:hover{
@@ -115,7 +107,7 @@ header{
 
 .search{
     margin-bottom: 2px;
-    background: linear-gradient(180deg, #ccecfc 0%, rgba(255,255,255,1) 71%);
+    background: linear-gradient(180deg, rgba(81,184,236,0.3) 0%, rgba(255,255,255,1) 71%);
 }
 
 .barrabusqueda{
@@ -209,11 +201,14 @@ strong{
     border: 1px solid rgb(216, 215, 215,0.5);
     margin-bottom: 20px;
     padding: 10px;
+    min-width: 720px;
+    max-width: 800px;
 }
 
 .izq{
     display: flex;
     flex-direction: column;
+    width: 75%;
 }
 
 .titulo{
@@ -228,6 +223,7 @@ strong{
 .texto{
     margin-top: 10px;
     font-size: 12px;
+    overflow-wrap: break-word;
 }
 
 .etiquetas{
@@ -243,11 +239,17 @@ strong{
     padding: 3px;
 }
 
+.enlacetiqueta{
+    color: black;
+    margin-right: 2%;
+}
+
 .der{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-left: auto;
 }
 
 .fecha{
@@ -258,9 +260,11 @@ strong{
     margin-top: 10px;
 }
 
+
 .imgus{
     height: 45px;
     width: 45px;
+    border-radius: 100%;
 }
 
 .nickname{

@@ -27,7 +27,8 @@ class DAOUsers {
                       console.log(rows[0]);
                       let infoNick = rows[0].nick;
                       let infoImg = rows[0].imagen;
-                      let info = {infoNick,infoImg};
+                      let infoID = rows[0].ID;
+                      let info = {infoNick,infoImg, infoID};
                       callback(null, info);
                   }           
               }
@@ -37,28 +38,31 @@ class DAOUsers {
       );
     }
     
-    getUserInfo(email, callback) {
+    getUserInfo(id, callback) {
         this.pool.getConnection(function(err, connection) {
             if (err) { 
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else {
-            connection.query("SELECT * FROM usuario WHERE email = ?",
-            [email],
+            connection.query("SELECT *,(SELECT COUNT(*) FROM pregunta JOIN usuario on pregunta.emailCreador = usuario.email WHERE usuario.email = (SELECT usuario.email FROM usuario WHERE usuario.ID = ?) ) AS numPreguntas ,(SELECT COUNT(*) FROM respuesta JOIN usuario on respuesta.emailCreador = usuario.email WHERE usuario.email = (SELECT usuario.email FROM usuario WHERE usuario.ID = ?) ) AS numRespuestas FROM usuario WHERE usuario.email = (SELECT usuario.email FROM usuario WHERE usuario.ID = ?) ",
+            [id, id, id],
             function(err, rows) {
                 connection.release(); // devolver al pool la conexión
                 if (err) {
-                    callback(new Error("Error de acceso a la base de datos"));
+                    callback(new Error("Error de conexión a la base de datos"));
                 }
                 else {
                     let email = rows[0].email;
                     let nick = rows[0].nick;
                     let reputacion = rows[0].reputacion;
-                    let fechaBD = new Date(rows[0].fecha);
+                    let fechaBD = new Date(rows[0].fechaAlta);
                     let fechaAlta = {dia:fechaBD.getDate(),mes:fechaBD.getMonth(),anyo:fechaBD.getFullYear()}
                     let fechastr = `${fechaAlta.dia}/${fechaAlta.mes}/${fechaAlta.anyo}`;
                     let img = rows[0].imagen;
-                    let userInfo = {email, nick, reputacion, fechastr, img};
+                    let id = rows[0].ID;
+                    let numPreguntas = rows[0].numPreguntas;
+                    let numRespuestas = rows[0].numRespuestas;
+                    let userInfo = {email, nick, reputacion, fechastr, img, id , numPreguntas, numRespuestas};
                     callback(null,userInfo);         
                 }
             });
@@ -73,7 +77,7 @@ class DAOUsers {
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else {
-                connection.query("SELECT usuario.nick,usuario.reputacion,usuario.imagen,nombretiqueta FROM (SELECT etiqueta.nombre AS nombretiqueta, COUNT(etiqueta.nombre) AS contadoretiqueta, usuario.* FROM etiqueta JOIN etiquetapregunta ON etiquetapregunta.nombreEtiqueta = etiqueta.nombre JOIN pregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email GROUP BY nombretiqueta ORDER BY contadoretiqueta DESC) AS contadores RIGHT JOIN usuario ON contadores.email = usuario.email GROUP BY usuario.email ORDER BY usuario.nick",
+                connection.query("SELECT usuario.nick,usuario.reputacion,usuario.imagen,usuario.ID,nombretiqueta FROM (SELECT etiqueta.nombre AS nombretiqueta, COUNT(etiqueta.nombre) AS contadoretiqueta, usuario.* FROM etiqueta JOIN etiquetapregunta ON etiquetapregunta.nombreEtiqueta = etiqueta.nombre JOIN pregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email GROUP BY nombretiqueta ORDER BY contadoretiqueta DESC) AS contadores RIGHT JOIN usuario ON contadores.email = usuario.email GROUP BY usuario.email ORDER BY usuario.nick",
                     function (err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {
@@ -85,8 +89,9 @@ class DAOUsers {
                                 let nick = userInfo.nick;
                                 let reputacion = userInfo.reputacion;
                                 let imagen = userInfo.imagen;
+                                let id = userInfo.ID;
                                 let nombretiqueta = userInfo.nombretiqueta;
-                                users.push({nick, reputacion, imagen, nombretiqueta});
+                                users.push({nick, reputacion, imagen,id , nombretiqueta});
                             }
 
                             callback(null,users);
@@ -121,14 +126,14 @@ class DAOUsers {
         });
     }
 
-    getMedallas(email, callback) {
+    getMedallas(id, callback) {
         this.pool.getConnection(function(err, connection) {
             if (err) { 
                 callback(new Error("Error de conexión a la base de datos"));
             }
             else {
-            connection.query("SELECT metal,nombre, COUNT(nombre) AS cantidad FROM medalla WHERE emailUsuario = ? GROUP BY nombre",
-            [email],
+            connection.query("SELECT metal,nombre, COUNT(nombre) AS cantidad FROM medalla WHERE emailUsuario = (SELECT usuario.email FROM usuario WHERE usuario.ID = ?) GROUP BY nombre",
+            [id],
             function(err, rows) {
                 connection.release(); // devolver al pool la conexión
                 if (err) {
@@ -164,6 +169,40 @@ class DAOUsers {
             }
         }
         );
+    }
+
+    getUsersByText(text,callback){
+        let t = ["%", text, "%"].join('');
+    this.pool.getConnection(function (err, connection) {
+      if (err) {
+        callback(new Error("Error de conexión a la base de datos1"));
+      }
+      else {
+        connection.query("SELECT usuario.nick,usuario.reputacion,usuario.imagen,nombretiqueta FROM (SELECT etiqueta.nombre AS nombretiqueta, COUNT(etiqueta.nombre) AS contadoretiqueta, usuario.* FROM etiqueta JOIN etiquetapregunta ON etiquetapregunta.nombreEtiqueta = etiqueta.nombre JOIN pregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email GROUP BY nombretiqueta ORDER BY contadoretiqueta DESC) AS contadores RIGHT JOIN usuario ON contadores.email = usuario.email GROUP BY usuario.email HAVING usuario.nick LIKE ? ORDER BY usuario.nick",
+                    [t],
+                    function (err, rows) {
+                        connection.release(); // devolver al pool la conexión
+                        if (err) {
+                            callback(new Error("Error de acceso a la base de datos"));
+                        }
+                        else {
+                            let users = [];
+                            for (let userInfo of rows){
+                                let nick = userInfo.nick;
+                                let reputacion = userInfo.reputacion;
+                                let imagen = userInfo.imagen;
+                                let nombretiqueta = userInfo.nombretiqueta;
+                                users.push({nick, reputacion, imagen, nombretiqueta});
+                            }
+
+                            callback(null,users);
+
+                        }
+                    }
+                );
+      }
+    }
+    );
     }
 
     /*getUserImage(email, callback) {

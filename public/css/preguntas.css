@@ -49,13 +49,18 @@ header{
     border: 2px outset rgb(81, 184, 236, 0.3);
 }
 
-.enlacepreguntas{
+.enlace.preguntas{
     background-color: rgb(81, 184, 236);
     color: white;
     border-top-right-radius: 120px;
     border-bottom-right-radius: 120px;
     border: 2px ridge black;
+    margin-top: -3px;
+
     transform: scale(1.15);
+    /* transform: translateX(15px); */
+    transition-delay: .1s;
+    transition-duration: .3s;
 }
 
 .enlace:hover{
@@ -218,11 +223,18 @@ a{
     border: 1px solid rgb(216, 215, 215,0.5);
     margin-bottom: 20px;
     padding: 10px;
+    min-width: 720px;
+    max-width: 800px;
+}
+
+.enlacepregunta{
+    width: 60%;
 }
 
 .izq{
     display: flex;
     flex-direction: column;
+    width: 75%;
 }
 
 .titulo{
@@ -237,6 +249,7 @@ a{
 .texto{
     margin-top: 10px;
     font-size: 12px;
+    overflow-wrap: break-word;
 }
 
 .etiquetas{

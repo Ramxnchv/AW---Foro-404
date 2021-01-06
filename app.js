@@ -48,9 +48,9 @@ app.use(middlewareSession);
 
 const loginOutRouter = require("./routers/routerLoginOut");
 const preguntasRouter = require("./routers/routerPreguntas");
+const usuariosRouter = require("./routers/routerUsuarios");
 
 app.use("/loginout",loginOutRouter);
-app.use("/preguntas",preguntasRouter);
 
 //MIDDLEWARES
 
@@ -60,23 +60,32 @@ function isUserLogged(request, response, next){
     } else {
         
         //response.locals = { userEmail: request.session.currentUser };
-        response.locals = { userNick : request.session.currentUserNick };
+        //response.locals = { userID: request.session.currentUserID };
+        response.locals = { userNick : request.session.currentUserNick, userID: request.session.currentUserID };
+        
         next();
     }
 }
 
+app.use(isUserLogged);
+
+app.use("/preguntas",preguntasRouter);
+app.use("/usuarios",usuariosRouter);
+
+
+
 //MANEJADORES DE RUTAS
 
-app.get("/index",isUserLogged, function (request, response) {
+app.get("/index", function (request, response) {
     response.render("index");         
 });
 
-app.get("/logout",isUserLogged, function (request, response) {
+app.get("/logout", function (request, response) {
     request.session.destroy();
     response.redirect("/loginout/login")       
 });
 
-app.get("/imagenUsuario", isUserLogged, function (request, response) {
+app.get("/imagenUsuario", function (request, response) {
     response.sendFile(path.join(__dirname, "profile_imgs", request.session.currentUserImg));  
 });
 

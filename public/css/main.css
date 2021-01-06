@@ -12,6 +12,10 @@
 header{
     display: flex;
     flex-direction: column;
+    position: fixed;
+    width: 100%;
+    
+    backface-visibility: unset;
 }
 
 .encabezado{

@@ -24,11 +24,11 @@
                 <div class="infopregunta">
                     <div class="etiquetasvisitasvotos">
                         <div class="etiquetas">
-                            <% pregunta.etiquetas.forEach(function(etiqueta) { %>
+                            <% if(pregunta.etiquetas[0] !== null) { pregunta.etiquetas.forEach(function(etiqueta) { %>
                                 <div class="etiqueta">
                                     <%= etiqueta %>
                                 </div>
-                                <% }); %>
+                                <% });} %>
                         </div>
                         <div class="visitasvotos">
                             <div class="visitas">
@@ -51,9 +51,11 @@
                         <div class="fecha">Formulada el <%= pregunta.fechastr %>
                         </div>
                         <div class="imguser"><img class="imgus" src="<%= pregunta.imagen %>"></img></div>
-                        <div class="nickname">
-                            <%= pregunta.nick %>
-                        </div>
+                        <a href="/usuarios/perfil/<%= pregunta.usuarioid %>" >
+                            <div class="nickname">
+                                <%= pregunta.nick %>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -78,7 +80,9 @@
                         <div class="der">
                             <div class="fecha">Formulada el <%= respuesta.fechastr %></div>
                             <div class="imguser"><img class="imgus" src="<%= respuesta.imagen %>"></img></div>
-                            <div class="nickname"><%= respuesta.nick %></div>
+                            <a href="/usuarios/perfil/<%= respuesta.usuarioid %>" >
+                                <div class="nickname"><%= respuesta.nick %></div>
+                            </a>
                         </div>
                     </div>
                 </div>

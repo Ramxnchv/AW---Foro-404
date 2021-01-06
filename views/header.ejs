@@ -8,17 +8,17 @@
             <a href="/preguntas/sinresponder" class="textoenlace">Sin responder</a>
         </div>
         <div class="enlace usuarios">
-            <a href="usuarios.html" class="textoenlace"> Usuarios</a>
+            <a href="/usuarios/" class="textoenlace"> Usuarios</a>
         </div>
     </div>
     <div class="logo"><img class="logo" src="../img/logo.png"></img></div>
     <div class="usuario">
         <div class="foto">
-            <img id="foto" src="../imagenUsuario" alt="Foto de perfil">
+            <img id="foto" src="/imagenUsuario" alt="Foto de perfil">
         </div>
-        <a class="enlacenick" href="perfil.html"> <div class="nick"><%= userNick %></div> </a>
+        <a class="enlacenick" href="/usuarios/perfil/<%= userID %>"> <div class="nick"><%= userNick %></div> </a>
         <div class="cerrarsesion">
-            <a href="../logout" class="textocerrarsesion"><img id="iconcerrarsesion" src="../img/cerrarsesionrojo.png"> Cerrar sesión</a>
+            <a href="/logout" class="textocerrarsesion"><img id="iconcerrarsesion" src="../img/cerrarsesionrojo.png"> Cerrar sesión</a>
         </div>
     </div>
 </div>

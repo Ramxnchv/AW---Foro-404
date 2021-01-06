@@ -25,6 +25,9 @@ class controllerPreguntas{
                 console.log(err.message);
             }
             else{
+                preguntasLista.forEach(function(pregunta){
+                    console.log(pregunta.etiquetas);
+                })
                 response.render("preguntas", { preguntas: preguntasLista});
             }
         });
