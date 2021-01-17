@@ -5,58 +5,21 @@
 <head>
     <title>404</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="css/preguntas.css" media="screen">
-    <link rel="icon" type="image/png" href="img/404-error.png">
+    <link rel="stylesheet" href="/css/preguntas.css" media="screen">
+    <link rel="icon" type="image/png" href="/img/404-error.png">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <%- include("header") %>
+    <%- include("subplantillaHeader") %>
         <div class="cuerpo">
             <h2 class="titulopagina">Todas las preguntas</h2>
                 <div class="infopreguntas">
                     <h3 class="numpreguntas"><%= preguntas.length %> preguntas</h3>
                     <a class="formp" href="/preguntas/formular"> <button class="formularpregunta" type="button">Formular una pregunta</button> </a>
                 </div>
-
-            <div class="preguntas">
-                <% preguntas.forEach(function(pregunta) { %>
-                    <div class="pregunta">
-                        <div class="izq">
-                            <a class="enlacepregunta" href="/preguntas/<%= pregunta.id %>">
-                                <div class="titulo">
-                                    <%= pregunta.titulo %>
-                                </div>
-                            </a>
-                            <div class="texto">
-                                <%= pregunta.texto %>
-                            </div>
-                            <div class="etiquetas"> 
-                                <% if(pregunta.etiquetas[0] !== null){
-                                pregunta.etiquetas.forEach(function(etiqueta) { %>
-                                    <a href="/preguntas/etiquetadas/<%= etiqueta %>" class="enlacetiqueta">
-                                        <div class="etiqueta">
-                                            <%= etiqueta %>
-                                        </div>
-                                    </a>
-                                <% });} %>
-                            </div>
-                        </div>
-                        <div class="der">
-                            <div class="fecha">Formulada el <%= pregunta.fechastr %></div>
-                            <div class="imguser">
-                                <img class="imgus" src="<%= pregunta.imagen %>"></img>
-                            </div>
-                            <a href="/usuarios/perfil/<%= pregunta.usuarioid %>" >
-                                <div class="nickname">
-                                    <%= pregunta.nick %>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <% }); %>
-            </div>
+                <%- include("subplantillaPreguntas") %>
         </div>
 </body>
 

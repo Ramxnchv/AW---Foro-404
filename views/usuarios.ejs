@@ -4,41 +4,16 @@
    <head>
       <title>404</title>
       <meta charset="utf-8"/>
-      <link rel="stylesheet" href="css/usuarios.css" media="screen">
-      <link rel="icon" type="image/png" href="img/404-error.png">
+      <link rel="stylesheet" href="/css/usuarios.css" media="screen">
+      <link rel="icon" type="image/png" href="/img/404-error.png">
       <link rel="preconnect" href="https://fonts.gstatic.com">
       <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
     </head>
    <body>
-    <%- include("header") %>  
+    <%- include("subplantillaHeader") %>  
     <div class="contenido">
         <h2 class="titulo">Usuarios</h2>
-        <form class="buscaruser" action="/usuarios/filtrar" method="GET">
-            <div class="buscarusuario">
-                <input class="texto" type="text" name="filtrarusuario" placeholder="Filtrar por usuario" >
-                <input class="filtrar" type="submit" value="Filtrar">
-            </div>
-        </form>
-        <div class="usuariosweb">
-            <% usuarios.forEach(function(usuario){ %>
-                <a href="/usuarios/perfil/<%= usuario.id %>" >
-                    <div class="usuarioweb">
-                        <div class="imgus">
-                            <img class="imgu" src="<%= usuario.imagen %>"></img>
-                        </div>
-                        <div class="username">
-                            <%= usuario.nick %>
-                        </div>
-                        <div class="reputacion">
-                            <%= usuario.reputacion %>
-                        </div>
-                        <div class="tag">
-                            <%= usuario.nombretiqueta %>
-                        </div>
-                    </div>
-                </a>
-            <% }); %>
-        </div>
+        <%- include("subplantillaUsuarios") %>  
     </div>
    </body>
 </html>

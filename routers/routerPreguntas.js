@@ -5,25 +5,6 @@ const bodyParser = require("body-parser");
 const router = express.Router();
 const cPreguntas = new controllerPreguntas();
 
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(express.static(path.join(__dirname, "../public")));
-router.use(express.static(path.join(__dirname, "../../public")));
-router.use(express.static(path.join(__dirname, "../profile_imgs")));
-router.use(express.static(path.join(__dirname, "../../profile_imgs")));
-
-/*function isUserLogged(request, response, next){
-    if (request.session.currentUser === undefined) {
-        response.redirect("/loginout/login");
-    } else {
-        //response.locals = { userEmail: request.session.currentUser };
-        //response.locals = { userID: request.session.currentUserID };
-        response.locals = { userNick : request.session.currentUserNick, userID: request.session.currentUserID };
-        next();
-    }
-}
-
-router.use(isUserLogged);*/
-
 router.get("/", cPreguntas.getPreguntas);
 
 router.get("/formular", cPreguntas.getFormularPregunta);

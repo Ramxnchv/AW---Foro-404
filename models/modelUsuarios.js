@@ -24,7 +24,6 @@ class DAOUsers {
                       callback(null, null); //no está el usuario con el password proporcionado
                   }
                   else {
-                      console.log(rows[0]);
                       let infoNick = rows[0].nick;
                       let infoImg = rows[0].imagen;
                       let infoID = rows[0].ID;
@@ -114,7 +113,6 @@ class DAOUsers {
                     function (err, rows) {
                         connection.release(); // devolver al pool la conexión
                         if (err) {
-                            console.log(err);
                             callback(new Error("Este email ya tiene un usuario asociado"),false);
                         }
                         else {
@@ -178,7 +176,7 @@ class DAOUsers {
         callback(new Error("Error de conexión a la base de datos1"));
       }
       else {
-        connection.query("SELECT usuario.nick,usuario.reputacion,usuario.imagen,nombretiqueta FROM (SELECT etiqueta.nombre AS nombretiqueta, COUNT(etiqueta.nombre) AS contadoretiqueta, usuario.* FROM etiqueta JOIN etiquetapregunta ON etiquetapregunta.nombreEtiqueta = etiqueta.nombre JOIN pregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email GROUP BY nombretiqueta ORDER BY contadoretiqueta DESC) AS contadores RIGHT JOIN usuario ON contadores.email = usuario.email GROUP BY usuario.email HAVING usuario.nick LIKE ? ORDER BY usuario.nick",
+        connection.query("SELECT usuario.nick,usuario.reputacion,usuario.imagen, usuario.ID, nombretiqueta FROM (SELECT etiqueta.nombre AS nombretiqueta, COUNT(etiqueta.nombre) AS contadoretiqueta, usuario.* FROM etiqueta JOIN etiquetapregunta ON etiquetapregunta.nombreEtiqueta = etiqueta.nombre JOIN pregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email GROUP BY nombretiqueta ORDER BY contadoretiqueta DESC) AS contadores RIGHT JOIN usuario ON contadores.email = usuario.email GROUP BY usuario.email HAVING usuario.nick LIKE ? ORDER BY usuario.nick",
                     [t],
                     function (err, rows) {
                         connection.release(); // devolver al pool la conexión
@@ -191,8 +189,9 @@ class DAOUsers {
                                 let nick = userInfo.nick;
                                 let reputacion = userInfo.reputacion;
                                 let imagen = userInfo.imagen;
+                                let id = userInfo.ID;
                                 let nombretiqueta = userInfo.nombretiqueta;
-                                users.push({nick, reputacion, imagen, nombretiqueta});
+                                users.push({nick, reputacion, imagen, id, nombretiqueta});
                             }
 
                             callback(null,users);
@@ -204,34 +203,6 @@ class DAOUsers {
     }
     );
     }
-
-    /*getUserImage(email, callback) {
-        this.pool.getConnection(function (err, connection) {
-            if (err) {
-                callback(new Error("Error de conexión a la base de datos"));
-            }
-            else {
-                connection.query("SELECT imagen FROM usuario WHERE email = ?",
-                    [email],
-                    function (err, rows) {
-                        connection.release(); // devolver al pool la conexión
-                        if (err) {
-                            callback(new Error("Error de acceso a la base de datos"));
-                        }
-                        else {
-                            if (rows.length === 0) {
-                                callback(new Error("El usuario no existe")); //no tiene imagen de usuario
-                            }
-                            else {
-                                //console.log(rows[0].imagen);
-                                callback(null, rows[0].imagen);
-                            }
-                        }
-                    });
-            }
-        }
-        );
-    }*/
   
   }
   module.exports = DAOUsers;

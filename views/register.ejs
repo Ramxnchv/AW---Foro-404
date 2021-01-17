@@ -4,21 +4,16 @@
    <head>
       <title>404</title>
       <meta charset="utf-8"/>
-      <link rel="stylesheet" href="../css/register.css" media="screen">
-      <link rel="icon" type="image/png" href="../img/404-error.png">
+      <link rel="stylesheet" href="/css/register.css" media="screen">
+      <link rel="icon" type="image/png" href="/img/404-error.png">
       <link rel="preconnect" href="https://fonts.gstatic.com">
       <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
     </head>
    <body>
-        <header>
-            <div class="encabezado">
-                <img class="logo" src="../img/logo.png"></img>
-            </div>
-            <div class="gradiente"></div>
-        </header>
+        <%- include("subplantillaHeaderLoginOut") %>
         <div class="cuerpo">
             <form class="register" action="register" method="POST" enctype="multipart/form-data">
-                <div class="correo">Correo:* <input class="texto" placeholder="Correo" type="text" name="correo" 
+                <div class="correo">Correo:* <input class="texto" placeholder="Correo" type="email" name="correo" 
                     accept="image/x-png,image/gif,image/jpeg" required></div>
                 <div class="pass">Contraseña:* <input class="textopass" placeholder="Contraseña" type="password" 
                     name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 

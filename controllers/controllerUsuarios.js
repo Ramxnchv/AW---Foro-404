@@ -1,10 +1,7 @@
 const express = require("express");
 const path = require("path");
 
-
 const moldelUsuarios = require("../models/modelUsuarios");
-
-
 
 const config = require("../config");
 const mysql = require("mysql");
@@ -63,7 +60,7 @@ class controllerUsuarios{
             var userImage ="";
             //Si no recibe una imagen de perfil le asigna una aleatoria
             if(!request.file){
-                userImage = `predeterminado${Math.floor(Math.random() * 5) + 1}.jpg` ;
+                userImage = `defecto${Math.floor(Math.random() * 3) + 1}.png` ;
             }
             else{
                 userImage = request.file.originalname;
@@ -91,7 +88,7 @@ class controllerUsuarios{
     getUsuarios(request,response, next){
         mUsuarios.getAllUsers(function(err,usuariosLista){
             if(err){
-                console.log(err.message);
+                next(err);
             }
             else{
                 response.render("usuarios", { usuarios: usuariosLista});
@@ -102,7 +99,7 @@ class controllerUsuarios{
     getUsuariosFiltrar(request,response, next){
         mUsuarios.getUsersByText(request.query.filtrarusuario,function(err,usuariosLista){
             if(err){
-                console.log(err.message);
+                next(err);
             }
             else{
                 response.render("usuariosportexto", { usuarios: usuariosLista, busqueda: request.query.filtrarusuario});
@@ -113,7 +110,7 @@ class controllerUsuarios{
     getPerfilUsuario(request,response, next){
         mUsuarios.getUserInfo(request.params.idUsuario, function(err, usuarioInfo){
             if(err){
-                console.log(err.message);
+                next(err);
             }
             else{
                 mUsuarios.getMedallas(request.params.idUsuario,function(err, medallasInfo){

@@ -14,8 +14,19 @@ header{
     flex-direction: column;
     position: fixed;
     width: 100%;
-    
+    margin-top: -200px;
     backface-visibility: unset;
+}
+.cuerpo{
+    width: 60%;
+    min-width: 460px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 200px;
 }
 
 .encabezado{

@@ -178,12 +178,21 @@ header{
     margin-bottom: 15px;
 }
 
+.enlacetiqueta{
+    margin-right: 2%;
+}
+
 .etiqueta{
     margin-right: 2%;
     border: 1px solid rgb(126, 126, 126);
     background-color: rgb(230, 228, 228, 0.8);
     font-size: 10px;
     padding: 3px;
+    color: black;
+}
+
+a{
+    text-decoration: none;
 }
 
 .infopregunta{

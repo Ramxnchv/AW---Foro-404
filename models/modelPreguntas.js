@@ -76,7 +76,6 @@ class DAOQuestions {
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
             if (err) {
-              console.log(rows);
               callback(new Error("Error de acceso a la base de datos2"));
             }
             else {
@@ -123,11 +122,11 @@ class DAOQuestions {
         callback(new Error("Error de conexión a la base de datos1"));
       }
       else {
-        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen, usuario.ID AS usuarioid FROM pregunta JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email",
+        connection.query("SELECT pregunta.id, pregunta.titulo, pregunta.texto, pregunta.fecha, etiquetapregunta.nombreEtiqueta, usuario.nick, usuario.imagen, usuario.ID AS usuarioid FROM pregunta JOIN etiquetapregunta ON pregunta.id = etiquetapregunta.idPregunta JOIN usuario ON pregunta.emailCreador = usuario.email WHERE etiquetapregunta.nombreEtiqueta = ?",
+        [tag],
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
             if (err) {
-              console.log(rows);
               callback(new Error("Error de acceso a la base de datos2"));
             }
             else {
@@ -158,7 +157,7 @@ class DAOQuestions {
 
               }
 
-              callback(null, questionsInfo.filter(aux => aux.etiquetas.some(aux => aux === tag)));
+              callback(null, questionsInfo);
             }
           });
       }
@@ -267,7 +266,6 @@ class DAOQuestions {
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
             if (err) {
-              console.log(rows);
               callback(new Error("Error de acceso a la base de datos2"));
             }
             else {
@@ -333,7 +331,6 @@ class DAOQuestions {
           function (err, rows) {
             connection.release(); // devolver al pool la conexión
             if (err) {
-              console.log(rows);
               callback(new Error("Error de acceso a la base de datos2"));
             }
             else {

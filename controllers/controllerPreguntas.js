@@ -11,7 +11,6 @@ const session = require("express-session");
 const mysqlSession = require("express-mysql-session");
 const bodyParser = require("body-parser");
 const utils = require("../utils");
-
 let utilidades = new utils();
 
 const pool = mysql.createPool(config.mysqlConfig);
@@ -22,12 +21,9 @@ class controllerPreguntas{
     getPreguntas(request,response,next){
         mPreguntas.getAllQuestions(function(err,preguntasLista){
             if(err){
-                console.log(err.message);
+                next(err);
             }
             else{
-                preguntasLista.forEach(function(pregunta){
-                    console.log(pregunta.etiquetas);
-                })
                 response.render("preguntas", { preguntas: preguntasLista});
             }
         });
@@ -45,7 +41,7 @@ class controllerPreguntas{
         else{
             mPreguntas.insertQuestion(request.session.currentUser,request.body.titulopregunta,request.body.cuerpopregunta,etiq.tags,function(err, result){
                 if (err) {
-                    console.log(err.message);
+                    next(err);
                 }
             });
             response.redirect("/preguntas");
@@ -55,7 +51,7 @@ class controllerPreguntas{
     getPreguntasPorEtiqueta(request,response,next){
         mPreguntas.getQuestionsByTag(request.params.idEtiqueta,function(err,preguntasLista){
             if(err){
-                console.log(err.message);
+                next(err);
             }
             else{
                 response.render("preguntasporetiqueta", { preguntas: preguntasLista, etiqueta: request.params.idEtiqueta});
@@ -66,7 +62,7 @@ class controllerPreguntas{
     getPreguntasSinResponder(request,response,next){
         mPreguntas.getNoAnsweredQuestions(function(err,preguntasLista){
             if(err){
-                console.log(err.message);
+                next(err);
             }
             else{
                 response.render("preguntassinresponder", { preguntas: preguntasLista});
@@ -77,7 +73,7 @@ class controllerPreguntas{
     getPreguntasPorTexto(request,response,next){
         mPreguntas.getQuestionsByText(request.query.busqueda,function(err,preguntasLista){
             if(err){
-                console.log(err.message);
+                next(err);
             }
             else{
                 response.render("preguntasportitulotexto", { preguntas: preguntasLista, busqueda: request.query.busqueda});
@@ -88,21 +84,21 @@ class controllerPreguntas{
     getPregunta(request,response,next){
         mPreguntas.getQuestionInfo(request.params.idPregunta,function(err,questionInfo){
             if(err){
-                console.log(err.message);
+                next(err);
             }
             else{
                 mPreguntas.getAnswersByQuestion(request.params.idPregunta, function(err, answers){
                     if(err){
-                        console.log(err.message);
+                        next(err);
                     }
                     else{
                         mPreguntas.updateVisitas(request.params.idPregunta, function(err, result){
                             if(err){
-                                console.log(err.message);
+                                next(err);
                             }
                             else{
                                 response.render("pregunta", { pregunta: questionInfo, respuestas: answers});
-                            }
+                           }
                         }); 
                     }
                 });
@@ -113,7 +109,7 @@ class controllerPreguntas{
     postRespuesta(request,response,next){
         mPreguntas.insertAnswer(request.session.currentUser,request.body.cuerporespuesta,request.params.idPregunta,function(err){
             if (err) {
-                console.log(err.message);
+                next(err);
             
             } else {
                 response.redirect(`/preguntas/${request.params.idPregunta}`);
@@ -124,7 +120,7 @@ class controllerPreguntas{
     postVotoPositivo(request,response,next){
         mPreguntas.insertarVotoPregunta(request.params.idPregunta,request.session.currentUser,1,function(err, result){
             if (err) {
-                console.log(err.message);
+                next(err);
             
             } else {
                 response.redirect(`/preguntas/${request.params.idPregunta}`);
@@ -135,7 +131,7 @@ class controllerPreguntas{
     postVotoNegativo(request,response,next){
         mPreguntas.insertarVotoPregunta(request.params.idPregunta,request.session.currentUser,-1,function(err, result){
             if (err) {
-                console.log(err.message);
+                next(err);
             
             } else {
                 response.redirect(`/preguntas/${request.params.idPregunta}`);
@@ -146,7 +142,7 @@ class controllerPreguntas{
     postVotoRespuestaPositivo(request,response,next){
         mPreguntas.insertarVotoRespuesta(request.params.idRespuesta,request.session.currentUser,1,function(err, result){
             if (err) {
-                console.log(err.message);
+                next(err);
             
             } else {
                 response.redirect(`/preguntas/${request.params.idPregunta}`);
@@ -157,7 +153,7 @@ class controllerPreguntas{
     postVotoRespuestaNegativo(request,response,next){
         mPreguntas.insertarVotoRespuesta(request.params.idRespuesta,request.session.currentUser,-1,function(err, result){
             if (err) {
-                console.log(err.message);
+                next(err);
             
             } else {
                 response.redirect(`/preguntas/${request.params.idPregunta}`);

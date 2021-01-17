@@ -5,14 +5,14 @@
 <head>
     <title>404</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../css/pregunta.css" media="screen">
-    <link rel="icon" type="image/png" href="../img/404-error.png">
+    <link rel="stylesheet" href="/css/pregunta.css" media="screen">
+    <link rel="icon" type="image/png" href="/img/404-error.png">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <%- include("header") %>
+    <%- include("subplantillaHeader") %>
         <div class="cuerpo">
             <div class="pregunta">
                 <h2 class="titulopregunta">
@@ -25,9 +25,11 @@
                     <div class="etiquetasvisitasvotos">
                         <div class="etiquetas">
                             <% if(pregunta.etiquetas[0] !== null) { pregunta.etiquetas.forEach(function(etiqueta) { %>
-                                <div class="etiqueta">
-                                    <%= etiqueta %>
-                                </div>
+                                <a href="/preguntas/etiquetadas/<%= etiqueta %>" class="enlacetiqueta">
+                                        <div class="etiqueta">
+                                            <%= etiqueta %>
+                                        </div>
+                                    </a>
                                 <% });} %>
                         </div>
                         <div class="visitasvotos">
@@ -38,11 +40,11 @@
                                 Votos: <%= pregunta.puntos %>
                             </div>
                             <form class="votopos" action="../preguntas/<%= pregunta.id %>/votopositivo" method="POST">
-                                <button type="submit" class="button"><img class="likeimage" src="img/like.png"
+                                <button type="submit" class="button"><img class="likeimage" src="/img/like.png"
                                         alt="like icon"></button>
                             </form>
                             <form class="votoneg" action="../preguntas/<%= pregunta.id %>/votonegativo" method="POST">
-                                <button type="submit" class="button"><img class="likeimage" src="img/dislike.png"
+                                <button type="submit" class="button"><img class="likeimage" src="/img/dislike.png"
                                         alt="dislike icon"></button>
                             </form>
                         </div>
@@ -50,7 +52,7 @@
                     <div class="der">
                         <div class="fecha">Formulada el <%= pregunta.fechastr %>
                         </div>
-                        <div class="imguser"><img class="imgus" src="<%= pregunta.imagen %>"></img></div>
+                        <div class="imguser"><img class="imgus" src="/<%= pregunta.imagen %>"></img></div>
                         <a href="/usuarios/perfil/<%= pregunta.usuarioid %>" >
                             <div class="nickname">
                                 <%= pregunta.nick %>
@@ -71,15 +73,15 @@
                             <div class="votos">Votos: <%= respuesta.puntos %>
                             </div> 
                             <form class="votopos" action="../preguntas/<%= pregunta.id %>/<%= respuesta.id %>/votopositivo" method="POST">
-                                <button type="submit" class="button"><img class="likeimage" src="img/like.png" alt="like icon"></button>
+                                <button type="submit" class="button"><img class="likeimage" src="/img/like.png" alt="like icon"></button>
                             </form>
                             <form class="votoneg" action="../preguntas/<%= pregunta.id %>/<%= respuesta.id %>/votonegativo" method="POST">
-                                <button type="submit" class="button"><img class="likeimage" src="img/dislike.png" alt="dislike icon"></button>
+                                <button type="submit" class="button"><img class="likeimage" src="/img/dislike.png" alt="dislike icon"></button>
                             </form>
                         </div>
                         <div class="der">
                             <div class="fecha">Formulada el <%= respuesta.fechastr %></div>
-                            <div class="imguser"><img class="imgus" src="<%= respuesta.imagen %>"></img></div>
+                            <div class="imguser"><img class="imgus" src="/<%= respuesta.imagen %>"></img></div>
                             <a href="/usuarios/perfil/<%= respuesta.usuarioid %>" >
                                 <div class="nickname"><%= respuesta.nick %></div>
                             </a>

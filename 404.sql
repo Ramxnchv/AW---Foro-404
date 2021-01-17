@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-12-2020 a las 14:11:43
+-- Tiempo de generación: 13-01-2021 a las 21:23:49
 -- Versión del servidor: 10.4.14-MariaDB
--- Versión de PHP: 7.4.10
+-- Versión de PHP: 7.2.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `etiqueta` (
-  `nombre` varchar(15) COLLATE utf8_spanish2_ci NOT NULL
+  `nombre` varchar(50) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
@@ -36,11 +36,13 @@ CREATE TABLE `etiqueta` (
 --
 
 INSERT INTO `etiqueta` (`nombre`) VALUES
-('Express'),
-('Java'),
-('JS'),
-('Laravel'),
-('PHP');
+('css'),
+('css3'),
+('html'),
+('JavaScript'),
+('mysql'),
+('nodejs'),
+('sql');
 
 -- --------------------------------------------------------
 
@@ -49,7 +51,7 @@ INSERT INTO `etiqueta` (`nombre`) VALUES
 --
 
 CREATE TABLE `etiquetapregunta` (
-  `nombreEtiqueta` varchar(15) COLLATE utf8_spanish2_ci NOT NULL,
+  `nombreEtiqueta` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `idPregunta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -58,13 +60,14 @@ CREATE TABLE `etiquetapregunta` (
 --
 
 INSERT INTO `etiquetapregunta` (`nombreEtiqueta`, `idPregunta`) VALUES
-('Express', 31),
-('Java', 8),
-('JS', 3),
-('JS', 5),
-('Laravel', 31),
-('PHP', 4),
-('PHP', 8);
+('css', 1),
+('css', 2),
+('css3', 1),
+('html', 2),
+('JavaScript', 3),
+('mysql', 5),
+('nodejs', 4),
+('sql', 5);
 
 -- --------------------------------------------------------
 
@@ -74,21 +77,10 @@ INSERT INTO `etiquetapregunta` (`nombreEtiqueta`, `idPregunta`) VALUES
 
 CREATE TABLE `medalla` (
   `id` int(11) NOT NULL,
-  `metal` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
-  `nombre` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
-  `emailUsuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL
+  `metal` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `emailUsuario` varchar(50) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `medalla`
---
-
-INSERT INTO `medalla` (`id`, `metal`, `nombre`, `emailUsuario`) VALUES
-(1, 'plata', 'Pregunta destacada', 'ramonros@ucm.es'),
-(2, 'plata', 'Pregunta destacada', 'ramonros@ucm.es'),
-(3, 'oro', 'Excelente pregunta', 'ramonros@ucm.es'),
-(4, 'bronce', 'Respuesta interesante', 'ramonros@ucm.es'),
-(5, 'plata', 'Buena respuesta', 'ramonros@ucm.es');
 
 -- --------------------------------------------------------
 
@@ -98,9 +90,9 @@ INSERT INTO `medalla` (`id`, `metal`, `nombre`, `emailUsuario`) VALUES
 
 CREATE TABLE `pregunta` (
   `id` int(11) NOT NULL,
-  `emailCreador` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  `emailCreador` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `numVisitas` int(11) NOT NULL DEFAULT 0,
-  `titulo` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `titulo` varchar(500) COLLATE utf8_spanish2_ci NOT NULL,
   `texto` varchar(1000) COLLATE utf8_spanish2_ci NOT NULL,
   `fecha` date NOT NULL DEFAULT current_timestamp(),
   `puntos` int(11) NOT NULL DEFAULT 0
@@ -111,11 +103,11 @@ CREATE TABLE `pregunta` (
 --
 
 INSERT INTO `pregunta` (`id`, `emailCreador`, `numVisitas`, `titulo`, `texto`, `fecha`, `puntos`) VALUES
-(3, 'ramonros@ucm.es', 0, 'Prueba', 'Pregunta de Prueba', '2020-11-12', 0),
-(4, 'ramonros@ucm.es', 0, 'pregunta php', 'blablabla php', '2020-12-09', 0),
-(5, 'ramonros@ucm.es', 0, 'prueba js', 'pregunta prueba js', '2020-12-09', 0),
-(8, 'pruebas@ucm.es', 0, 'Java vs PHP', '¿Cual creen que es mejor para programar el backend de una aplicación empresarial?', '2020-12-13', 1),
-(31, 'pruebas@ucm.es', 0, 'Laravel vs Express', 'Cual de los dos frameworks es mejor para desarrollar el backend de una aplicacion web', '2020-12-13', 0);
+(1, 'nico@404.es', 0, '¿Cual es la diferencia entre position: relative, position: absolute y position: fixed?', 'Sé que estas propiedades de CSS sirven para posicionar un elemento dentro de la página. Sé que estas propiedades de CSS sirven para posicionar un elemento dentro de la página.', '2021-01-13', 0),
+(2, 'roberto@404.es', 0, '¿Cómo funciona exactamente nth-child?', 'No acabo de comprender muy bien que hace exactamente y qué usos prácticos puede tener.', '2021-01-13', 0),
+(3, 'sfg@404.es', 0, 'Diferencias entre == y === (comparaciones en JavaScript)', 'Siempre he visto que en JavaScript hay:\r\n\r\nasignaciones =\r\ncomparaciones == y ===\r\nCreo entender que == hace algo parecido a comparar el valor de la variable y el === también compara el tipo (como un equals de java).\r\n', '2021-01-13', 0),
+(4, 'marta@404.es', 0, 'Problema con asincronismo en Node', 'Soy nueva en Node... Tengo una modulo que conecta a una BD de postgres por medio de pg-node. En eso no tengo problemas. Mi problema es que al llamar a ese modulo, desde otro modulo, y despues querer usar los datos que salieron de la BD me dice undefined... Estoy casi seguro que es porque la conexion a la BD devuelve una promesa, y los datos no estan disponibles al momento de usarlos.', '2021-01-13', 0),
+(5, 'lucas@404.es', 0, '¿Qué es la inyección SQL y cómo puedo evitarla?', 'He encontrado bastantes preguntas en StackOverflow sobre programas o formularios web que guardan información en una base de datos (especialmente en PHP y MySQL) y que contienen graves problemas de seguridad relacionados principalmente con la inyección SQL.\r\n\r\nNormalmente dejo un comentario y/o un enlace a una referencia externa, pero un comentario no da mucho espacio para mucho y sería positivo que hubiera una referencia interna en SOes sobre el tema así que decidí escribir esta pregunta.\r\n', '2021-01-13', 0);
 
 --
 -- Disparadores `pregunta`
@@ -145,7 +137,7 @@ DELIMITER ;
 
 CREATE TABLE `respuesta` (
   `id` int(11) NOT NULL,
-  `emailCreador` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  `emailCreador` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `texto` varchar(1000) COLLATE utf8_spanish2_ci NOT NULL,
   `puntos` int(11) NOT NULL DEFAULT 0,
   `fecha` date NOT NULL DEFAULT current_timestamp(),
@@ -157,8 +149,27 @@ CREATE TABLE `respuesta` (
 --
 
 INSERT INTO `respuesta` (`id`, `emailCreador`, `texto`, `puntos`, `fecha`, `idPregunta`) VALUES
-(1, 'ramonros@ucm.es', 'PHP es mejor', 0, '2020-12-12', 8),
-(2, 'pruebas@ucm.es', 'A mi me gusta mas J2EE', -1, '2020-12-13', 8);
+(1, 'lucas@404.es', 'La propiedad position sirve para posicionar un elemento dentro de la página. Sin embargo, dependiendo de cual sea la propiedad que usemos, el elemento tomará una referencia u otra para posicionarse respecto a ella.\r\n\r\nLos posibles valores que puede adoptar la propiedad position son: static | relative | absolute | fixed | inherit | initial\r\n', 0, '2021-01-13', 1),
+(2, 'emy@404.es', 'La pseudoclase :nth-child() selecciona los hermanos que cumplan cierta condición definida en la fórmula an + b. a y b deben ser números enteros, n es un contador. El grupo an representa un ciclo, cada cuantos elementos se repite; b indica desde donde empezamos a contar.', 0, '2021-01-13', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `session_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `expires` int(11) UNSIGNED NOT NULL,
+  `data` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `sessions`
+--
+
+INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
+('pWbkTY58CRzR88SC3Ed0Pkep1wN3tgMQ', 1610655593, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"currentUser\":\"lucas@404.es\",\"currentUserNick\":\"Lucas\",\"currentUserImg\":\"defecto1.png\",\"currentUserID\":5}');
 
 -- --------------------------------------------------------
 
@@ -167,9 +178,10 @@ INSERT INTO `respuesta` (`id`, `emailCreador`, `texto`, `puntos`, `fecha`, `idPr
 --
 
 CREATE TABLE `usuario` (
-  `email` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
-  `nick` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
-  `contraseña` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
+  `ID` int(11) NOT NULL,
+  `email` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `nick` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `contraseña` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `reputacion` int(11) NOT NULL DEFAULT 1,
   `fechaAlta` date NOT NULL DEFAULT current_timestamp(),
   `imagen` varchar(60) COLLATE utf8_spanish2_ci NOT NULL
@@ -179,9 +191,13 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`email`, `nick`, `contraseña`, `reputacion`, `fechaAlta`, `imagen`) VALUES
-('pruebas@ucm.es', 'Usuario2', 'b766c99607d41d1729a9facaffeb07874dd37343', 11, '2020-12-10', '/public/resources/userImages/avatar.png'),
-('ramonros@ucm.es', 'Ramxnchv', 'b766c99607d41d1729a9facaffeb07874dd37343', 1, '2020-11-12', '/public/resources/userImages/magdalena.jpg');
+INSERT INTO `usuario` (`ID`, `email`, `nick`, `contraseña`, `reputacion`, `fechaAlta`, `imagen`) VALUES
+(6, 'emy@404.es', 'Emy', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 1, '2021-01-13', 'amy.png'),
+(5, 'lucas@404.es', 'Lucas', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 1, '2021-01-13', 'defecto1.png'),
+(4, 'marta@404.es', 'Marta', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 1, '2021-01-13', 'marta.png'),
+(1, 'nico@404.es', 'Nico', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 1, '2021-01-13', 'nico.png'),
+(2, 'roberto@404.es', 'Roberto', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 1, '2021-01-13', 'roberto.png'),
+(3, 'sfg@404.es', 'SFG', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 1, '2021-01-13', 'sfg.png');
 
 -- --------------------------------------------------------
 
@@ -191,16 +207,9 @@ INSERT INTO `usuario` (`email`, `nick`, `contraseña`, `reputacion`, `fechaAlta`
 
 CREATE TABLE `votopregunta` (
   `idpregunta` int(11) NOT NULL,
-  `emailusuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  `emailusuario` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `voto` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `votopregunta`
---
-
-INSERT INTO `votopregunta` (`idpregunta`, `emailusuario`, `voto`) VALUES
-(8, 'ramonros@ucm.es', 1);
 
 --
 -- Disparadores `votopregunta`
@@ -312,7 +321,7 @@ DELIMITER ;
 
 CREATE TABLE `votorespuesta` (
   `idRespuesta` int(11) NOT NULL,
-  `emailUsuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  `emailUsuario` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `voto` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -458,10 +467,17 @@ ALTER TABLE `respuesta`
   ADD KEY `respuesta_ibfk_2` (`idPregunta`);
 
 --
+-- Indices de la tabla `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`session_id`);
+
+--
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`email`);
+  ADD PRIMARY KEY (`email`),
+  ADD UNIQUE KEY `id email` (`ID`);
 
 --
 -- Indices de la tabla `votopregunta`
@@ -485,19 +501,25 @@ ALTER TABLE `votorespuesta`
 -- AUTO_INCREMENT de la tabla `medalla`
 --
 ALTER TABLE `medalla`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
